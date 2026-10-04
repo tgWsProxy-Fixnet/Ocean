@@ -2,1422 +2,1104 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- ══════════════════════════════════════════════════════════════
-     ССЫЛКА НА СКАЧИВАНИЕ — СТРОКА 7 (ниже).
-     Вставьте адрес файла между кавычек. Это единственное место правки.
-     Пока поле пустое — все кнопки ведут к блоку «Скачать» на странице.
-     ══════════════════════════════════════════════════════════════ -->
-<script>window.OCEAN_DOWNLOAD_URL = "https://github.com/OceanPlay1/Ocean/raw/main/Ocean.exe";</script>
-<title>Ocean — бесплатный поиск дубликатов и плагиата в исходном коде</title>
-<meta name="description" content="Бесплатно. Ocean сравнивает файлы и папки с кодом, находит полные дубликаты, скопированные фрагменты и заимствования. Подсветка совпадений, отчёты в PDF, интеграция с Git и CI.">
-<meta property="og:title" content="Ocean — поиск совпадений в исходном коде">
-<meta property="og:description" content="Загрузите файлы или папку — Ocean найдёт дубликаты, скопированные фрагменты и заимствования, покажет процент совпадения и подсветит одинаковые строки. Бесплатно.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ═══════════ SEO ═══════════ -->
+<title>tgWsProxy — Telegram на ПК без блокировок</title>
+<meta name="description" content="Бесплатная утилита для Windows: один тумблер — и Telegram снова грузится. WebSocket-туннель только для трафика Telegram, без VPN и настроек.">
+<meta name="keywords" content="tgWsProxy, telegram не грузится, telegram прокси, websocket, windows, бесплатная утилита">
+<meta name="theme-color" content="#070b14">
+<link rel="canonical" href="https://tgwsproxy.dev/">
+
+<!-- Open Graph: положи рядом og-cover.png 1200×630 или удали тег og:image -->
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Ocean">
 <meta property="og:locale" content="ru_RU">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23041220'/%3E%3Cpath d='M5 20c3-7 6-7 9 0s6 7 9 0' stroke='%2337e5c8' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<meta property="og:site_name" content="tgWsProxy">
+<meta property="og:title" content="tgWsProxy — Telegram на ПК без блокировок">
+<meta property="og:description" content="Один тумблер — и Telegram оживает. Бесплатно, без VPN, открытый код.">
+<meta property="og:image" content="og-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Favicon: SVG «сигнал через узел прокси» (синяя трасса + золотой узел) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d1420'/%3E%3Cpath d='M12 42 L26 28 L35 37 L52 18' stroke='%235aa7ff' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='52' cy='18' r='5' fill='%23ffc24b'/%3E%3C/svg%3E">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"tgWsProxy",
+"operatingSystem":"Windows 7, 8, 10, 11","applicationCategory":"UtilitiesApplication",
+"offers":{"@type":"Offer","price":"0","priceCurrency":"RUB"},
+"description":"Бесплатная утилита: открывает Telegram на ПК через WebSocket-туннель одним тумблером."}
+</script>
+
+<!-- Шрифты: Unbounded — заголовки, Manrope — текст, JetBrains Mono — код/телеметрия -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
 <style>
-  :root{
-    --bg:#04121a; --bg-2:#061a24; --bg-3:#082130;
-    --panel:rgba(125,206,220,.045); --panel-2:rgba(125,206,220,.09);
-    --line:rgba(125,206,220,.13); --line-2:rgba(125,206,220,.28);
-    --text:#e6f3f5; --muted:#94b8c1; --dim:#61828b;
-    --accent:#37e5c8; --accent-deep:#0a2f30; --accent-soft:rgba(55,229,200,.12);
-    --blue:#5cb8dd; --blue-soft:rgba(92,184,221,.12);
-    --warm:#f2a97e; --warm-soft:rgba(242,169,126,.09);
-    --radius:18px;
-    --fd:'Unbounded',sans-serif; --fb:'Manrope',sans-serif; --fm:'JetBrains Mono',monospace;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth;scroll-padding-top:92px}
-  body{
-    font-family:var(--fb);background:var(--bg);color:var(--text);
-    line-height:1.6;font-size:16px;overflow-x:hidden;
-    -webkit-font-smoothing:antialiased;
-  }
-  ::selection{background:rgba(55,229,200,.28)}
-  ::-webkit-scrollbar{width:10px;height:10px}
-  ::-webkit-scrollbar-track{background:var(--bg)}
-  ::-webkit-scrollbar-thumb{background:var(--bg-3);border-radius:6px;border:2px solid var(--bg)}
-  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
-  a{color:inherit;text-decoration:none}
-  button{font-family:inherit;cursor:pointer}
-  img,svg{display:block}
-  .mono{font-family:var(--fm)}
+/* ═════════════ БАЗА / ПАЛИТРА «midnight gold» ═════════════ */
+:root{
+  --bg:#070b14; --bg2:#0a1120; --panel:#0d1526; --panel2:#14203a;
+  --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.15);
+  --text:#e8eef8; --muted:#8fa0bd; --dim:#5a6b88;
+  --acc:#ffc24b;          /* золото — главный акцент */
+  --acc-ink:#241a05;      /* тёмный текст на золотом */
+  --blue:#5aa7ff;         /* электрик-синий — вторичный акцент */
+  --mint:#46e5a7;         /* успех / онлайн */
+  --coral:#ff6d6d;        /* ошибки */
+  --vio:#9d7bff;          /* фиолет — детали */
+  --ease:cubic-bezier(.22,.8,.28,1);
+  --disp:'Unbounded',sans-serif; --body:'Manrope',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font:15px/1.6 var(--body);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(255,194,75,.25)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+ul{list-style:none}
+.container{max-width:1140px;margin:0 auto;padding:0 24px}
+section{padding:96px 0;scroll-margin-top:80px}
+svg{display:block}
 
-  .wrap{max-width:1150px;margin:0 auto;padding:0 24px}
-  section{padding:104px 0}
-  @media(max-width:720px){section{padding:72px 0}}
+/* плёночный шум по всей странице */
+body::before{content:"";position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.05;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>")}
+.glow-bg{position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:radial-gradient(640px 420px at 85% 4%,rgba(90,167,255,.08),transparent 62%),
+             radial-gradient(720px 520px at 4% 30%,rgba(255,194,75,.05),transparent 62%),
+             radial-gradient(820px 620px at 50% 105%,rgba(157,123,255,.06),transparent 62%)}
 
-  /* ---------- типографика секций ---------- */
-  .eyebrow{
-    display:flex;align-items:center;gap:12px;
-    font-family:var(--fm);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
-    color:var(--accent);margin-bottom:18px;
-  }
-  .eyebrow::before{content:"";width:26px;height:1px;background:var(--accent);flex:none}
-  .eyebrow span{color:var(--dim)}
-  h2{font-family:var(--fd);font-weight:600;font-size:clamp(24px,3.4vw,38px);line-height:1.22;letter-spacing:-.01em;max-width:640px}
-  .sec-sub{color:var(--muted);max-width:560px;margin-top:16px;font-size:16.5px}
-  .sec-head{margin-bottom:56px}
+*::-webkit-scrollbar{width:8px;height:8px}
+*::-webkit-scrollbar-thumb{background:#1f2b45;border-radius:8px}
+*::-webkit-scrollbar-track{background:transparent}
 
-  /* ---------- кнопки ---------- */
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:9px;
-    font:600 15px/1 var(--fb);padding:14px 24px;border-radius:12px;
-    border:1px solid transparent;transition:transform .18s ease,background .18s ease,border-color .18s ease,color .18s ease;
-    white-space:nowrap;
-  }
-  .btn svg{width:17px;height:17px;flex:none}
-  .btn:active{transform:translateY(1px) scale(.99)}
-  .btn-primary{background:var(--accent);color:#04222b}
-  .btn-primary:hover{background:#5feed3;transform:translateY(-1px)}
-  .btn-ghost{border-color:var(--line-2);color:var(--text);background:transparent}
-  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
-  .btn-sm{padding:10px 16px;font-size:13.5px;border-radius:10px}
-  .btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease);transition-delay:var(--d,0s)}
+.reveal.in{opacity:1;transform:none}
 
-  /* ---------- шапка ---------- */
-  header{
-    position:fixed;inset:0 0 auto;z-index:50;height:72px;
-    transition:background .3s,border-color .3s;border-bottom:1px solid transparent;
-  }
-  header.scrolled{background:rgba(4,18,26,.82);backdrop-filter:blur(14px);border-color:var(--line)}
-  .nav{height:72px;display:flex;align-items:center;gap:32px}
-  .logo{display:flex;align-items:center;gap:11px;font-family:var(--fd);font-weight:600;font-size:18px;letter-spacing:.02em}
-  .logo-mark{width:32px;height:32px;border-radius:9px;background:var(--accent-deep);border:1px solid var(--line-2);display:grid;place-items:center;flex:none}
-  .logo-mark svg{width:18px;height:18px}
-  .nav-links{display:flex;gap:4px;margin-left:auto}
-  .nav-links a{
-    font-size:14.5px;font-weight:500;color:var(--muted);padding:8px 13px;border-radius:9px;
-    transition:color .18s,background .18s;
-  }
-  .nav-links a:hover{color:var(--text)}
-  .nav-links a.active{color:var(--accent);background:var(--accent-soft)}
-  .nav .btn{margin-left:8px}
-  .burger{
-    display:none;margin-left:auto;width:42px;height:42px;border-radius:10px;
-    border:1px solid var(--line-2);background:transparent;color:var(--text);
-    align-items:center;justify-content:center;
-  }
-  .burger svg{width:20px;height:20px}
-  .mobile-menu{
-    position:fixed;top:72px;left:0;right:0;z-index:49;
-    background:rgba(4,18,26,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);
-    padding:14px 24px 24px;display:flex;flex-direction:column;gap:4px;
-    opacity:0;transform:translateY(-10px);pointer-events:none;transition:opacity .25s,transform .25s;
-  }
-  .mobile-menu.open{opacity:1;transform:none;pointer-events:auto}
-  .mobile-menu a{padding:13px 10px;border-radius:10px;font-weight:600;font-size:16px;color:var(--muted)}
-  .mobile-menu a:hover{color:var(--text);background:var(--panel)}
-  .mobile-menu .btn{margin-top:12px}
-  @media(max-width:960px){
-    .nav-links,.nav>.btn{display:none}
-    .burger{display:flex}
-  }
+/* ═════════════ КНОПКИ ═════════════ */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border-radius:12px;
+  font-weight:700;font-size:14.5px;transition:.25s var(--ease);white-space:nowrap}
+.btn svg{width:18px;height:18px;flex:none}
+.btn-primary{background:var(--acc);color:var(--acc-ink)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,194,75,.35)}
+.btn-primary:active{transform:translateY(0)}
+.btn-ghost{border:1px solid var(--line2);color:var(--text)}
+.btn-ghost:hover{border-color:rgba(255,194,75,.5);background:rgba(255,194,75,.06);transform:translateY(-2px)}
+.btn-sm{padding:9px 16px;font-size:13px;border-radius:10px}
+.btn-lg{padding:17px 32px;font-size:16px;border-radius:14px}
 
-  /* ---------- герой ---------- */
-  .hero{position:relative;padding:188px 0 140px;min-height:92vh;display:flex;align-items:center;overflow:hidden}
-  #waveCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
-  .hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.08fr .92fr;gap:64px;align-items:center;width:100%}
-  .hero-badge{
-    display:inline-flex;align-items:center;gap:9px;font-family:var(--fm);font-size:12px;color:var(--accent);
-    border:1px solid var(--line-2);border-radius:99px;padding:7px 15px;margin-bottom:26px;background:rgba(4,18,26,.5);
-  }
-  .hero-badge i{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2.4s infinite}
-  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
-  h1{font-family:var(--fd);font-weight:600;font-size:clamp(30px,4.6vw,54px);line-height:1.16;letter-spacing:-.015em}
-  .u-wave{position:relative;white-space:nowrap}
-  .u-wave svg{position:absolute;left:0;bottom:-9px;width:100%;height:12px}
-  .hero p.lead{color:var(--muted);font-size:18px;max-width:520px;margin:26px 0 36px}
-  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
-  .hero-note{margin-top:22px;font-family:var(--fm);font-size:12px;color:var(--dim)}
+/* ═════════════ ШАПКА ═════════════ */
+.site-head{position:fixed;top:0;left:0;right:0;z-index:50;transition:.3s;
+  background:rgba(7,11,20,.55);backdrop-filter:blur(14px);border-bottom:1px solid transparent}
+.site-head.scrolled{background:rgba(7,11,20,.88);border-bottom-color:var(--line)}
+.head-in{display:flex;align-items:center;gap:32px;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font:600 17px var(--mono)}
+.logo-ic{width:30px;height:30px;flex:none}
+.head-nav{display:flex;gap:26px;margin-left:auto}
+.head-nav a{font-size:14px;font-weight:600;color:var(--muted);position:relative;transition:.2s}
+.head-nav a:hover{color:var(--text)}
+.head-nav a::after{content:"";position:absolute;left:0;bottom:-5px;height:2px;width:0;background:var(--acc);transition:.25s var(--ease)}
+.head-nav a:hover::after{width:100%}
+.head-cta{flex:none}
+.burger{display:none;margin-left:auto;width:40px;height:40px;position:relative}
+.burger span{position:absolute;left:9px;right:9px;height:2px;background:var(--text);border-radius:2px;transition:.3s var(--ease)}
+.burger span:nth-child(1){top:14px}.burger span:nth-child(2){top:24px}
+body.nav-open .burger span:nth-child(1){top:19px;transform:rotate(45deg)}
+body.nav-open .burger span:nth-child(2){top:19px;transform:rotate(-45deg)}
+.mobile-nav{position:fixed;top:68px;left:0;right:0;z-index:49;background:rgba(9,13,24,.97);
+  backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:8px 24px 24px;
+  display:flex;flex-direction:column;gap:2px;opacity:0;transform:translateY(-10px);pointer-events:none;transition:.3s var(--ease)}
+body.nav-open .mobile-nav{opacity:1;transform:none;pointer-events:auto}
+.mobile-nav a{padding:13px 4px;font-weight:600;border-bottom:1px solid var(--line);font-size:16px}
+.mobile-nav a:last-child{border-bottom:none;margin-top:12px;text-align:center}
 
-  /* карточка отчёта в герое */
-  .report-card{
-    background:rgba(6,24,33,.88);border:1px solid var(--line);border-radius:var(--radius);
-    box-shadow:0 30px 80px rgba(0,0,0,.45);overflow:hidden;
-    transition:transform .25s ease;will-change:transform;
-  }
-  .rc-head{display:flex;align-items:center;gap:10px;padding:13px 18px;border-bottom:1px solid var(--line);font-family:var(--fm);font-size:12px;color:var(--muted)}
-  .rc-head .dots{display:flex;gap:6px}
-  .rc-head .dots i{width:9px;height:9px;border-radius:50%;background:var(--line-2)}
-  .rc-head .dots i:first-child{background:var(--accent)}
-  .rc-head .pct{margin-left:auto;color:var(--accent);font-weight:500}
-  .rc-cols{display:grid;grid-template-columns:1fr 1fr;font-family:var(--fm);font-size:12px;line-height:1.9}
-  .rc-col{padding:14px 0;min-width:0}
-  .rc-col+.rc-col{border-left:1px dashed var(--line)}
-  .rc-col .file{padding:0 16px 8px;color:var(--dim);font-size:11px;letter-spacing:.05em}
-  .rc-line{padding:0 16px;white-space:pre;overflow:hidden;text-overflow:ellipsis;color:var(--dim)}
-  .rc-line.eq{color:var(--text);background:var(--accent-soft);box-shadow:inset 2px 0 0 var(--accent)}
-  .rc-foot{display:flex;align-items:center;gap:14px;padding:12px 18px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
-  .rc-bar{flex:1;height:4px;border-radius:3px;background:var(--line);overflow:hidden}
-  .rc-bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:3px;transition:width 1.6s cubic-bezier(.16,1,.3,1)}
-  @media(max-width:960px){
-    .hero{padding:150px 0 110px;min-height:auto}
-    .hero .wrap{grid-template-columns:1fr;gap:44px}
-  }
+/* ═════════════ ГЛИТЧ (синий + коралл + мятный отсвет) ═════════════ */
+.glitch{position:relative;display:inline-block;color:var(--text);
+  text-shadow:1px 0 rgba(90,167,255,.35),-1px 0 rgba(255,109,109,.35)}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;left:0;top:0;width:100%;pointer-events:none;opacity:0;z-index:2}
+.glitch::before{color:var(--blue);animation:glA 4.6s infinite steps(1)}
+.glitch::after{color:var(--coral);animation:glB 5.4s infinite steps(1)}
+@keyframes glA{0%,88%,100%{opacity:0;transform:none;clip-path:inset(0)}
+  89%{opacity:.9;transform:translate(-3px,2px);clip-path:inset(10% 0 55% 0)}
+  91%{opacity:.9;transform:translate(3px,-1px) skewX(-3deg);clip-path:inset(58% 0 6% 0)}
+  93%{opacity:.7;transform:translate(-2px,0);clip-path:inset(32% 0 40% 0)}
+  95%{opacity:0}}
+@keyframes glB{0%,91%,100%{opacity:0;transform:none;clip-path:inset(0)}
+  92%{opacity:.9;transform:translate(3px,1px) skewX(2deg);clip-path:inset(40% 0 30% 0)}
+  94%{opacity:.9;transform:translate(-3px,-2px);clip-path:inset(4% 0 76% 0)}
+  96%{opacity:0}}
+.glitch.hot,.glitch:hover{animation:glBase .45s steps(2) infinite;
+  text-shadow:2px 0 rgba(255,109,109,.85),-2px 0 rgba(90,167,255,.85),0 0 22px rgba(90,167,255,.3)}
+.glitch.hot::before,.glitch:hover::before{animation:glA .38s steps(1) infinite}
+.glitch.hot::after,.glitch:hover::after{animation:glB .33s steps(1) infinite}
+@keyframes glBase{0%,90%,100%{transform:none}92%{transform:translate(1px,-1px) skewX(2.5deg)}95%{transform:translate(-2px,1px) skewX(-2.5deg)}98%{transform:none}}
+.scan{position:relative;display:inline-block}
+.scan::after{content:"";position:absolute;inset:-10px -16px;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(255,255,255,.028) 2px 3px)}
 
-  /* ---------- как это работает ---------- */
-  .steps{position:relative;max-width:760px}
-  .steps::before{content:"";position:absolute;left:27px;top:16px;bottom:16px;width:1px;background:var(--line)}
-  .step{display:grid;grid-template-columns:56px 1fr;gap:26px;padding:26px 0;position:relative}
-  .step-num{
-    width:56px;height:56px;border-radius:16px;border:1px solid var(--line-2);background:var(--bg-2);
-    display:grid;place-items:center;font-family:var(--fm);font-size:14px;color:var(--accent);
-    position:relative;z-index:1;transition:border-color .3s,background .3s;
-  }
-  .step.in .step-num{background:var(--accent-deep);border-color:rgba(55,229,200,.45)}
-  .step h3{font-family:var(--fd);font-weight:500;font-size:19px;margin-bottom:8px}
-  .step p{color:var(--muted);max-width:560px;font-size:15.5px}
-  .step .step-tag{display:inline-block;margin-top:10px;font-family:var(--fm);font-size:11.5px;color:var(--dim);border:1px solid var(--line);border-radius:7px;padding:4px 10px}
+/* ═════════════ ГЕРОЙ (демо живёт прямо здесь, в самом верху) ═════════════ */
+.hero{position:relative;padding:140px 0 90px}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(680px 440px at 50% 12%,#000,transparent 74%);
+          mask-image:radial-gradient(680px 440px at 50% 12%,#000,transparent 74%)}
+.hero-inner{text-align:center;display:flex;flex-direction:column;align-items:center}
+.overline{display:inline-flex;align-items:center;gap:9px;font:600 11.5px var(--mono);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:100px;padding:8px 16px;margin-bottom:26px}
+.overline .dot{width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 10px var(--acc);animation:pulse 2.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.hero-title{font:800 clamp(42px,9vw,88px)/1.05 var(--disp);letter-spacing:-.01em;margin-bottom:22px}
+.hero-sub{max-width:580px;color:var(--muted);font-size:17px;margin-bottom:34px}
+.hero-sub b{color:var(--text)}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
+.hero-note{font:500 12px var(--mono);color:var(--dim);letter-spacing:.05em}
 
-  /* ---------- возможности (bento) ---------- */
-  .bento{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-  .cell{
-    border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);
-    padding:28px;display:flex;flex-direction:column;gap:14px;min-height:190px;
-    transition:border-color .25s,background .25s,transform .25s;
-  }
-  .cell:hover{border-color:var(--line-2);background:var(--panel-2);transform:translateY(-3px)}
-  .b7{grid-column:span 7}.b5{grid-column:span 5}.b4{grid-column:span 4}
-  @media(max-width:900px){.b7,.b5,.b4{grid-column:span 12}}
-  @media(min-width:901px) and (max-width:1120px){.b4{grid-column:span 6}.b7,.b5{grid-column:span 6}}
-  .cell-icon{
-    width:42px;height:42px;border-radius:12px;background:var(--accent-deep);border:1px solid rgba(55,229,200,.3);
-    display:grid;place-items:center;color:var(--accent);flex:none;
-  }
-  .cell-icon svg{width:20px;height:20px}
-  .cell h3{font-family:var(--fd);font-weight:500;font-size:16.5px}
-  .cell p{color:var(--muted);font-size:14.5px;flex:1}
-  .cell-vis{margin-top:auto}
+/* ═════════════ СЦЕНА: TELEGRAM + ТУМБЛЕР ═════════════ */
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:22px;margin-top:56px;align-items:stretch;text-align:left}
 
-  .chips{display:flex;flex-wrap:wrap;gap:8px}
-  .chip{font-family:var(--fm);font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:8px;padding:5px 11px;transition:color .18s,border-color .18s}
-  .chip:hover{color:var(--accent);border-color:rgba(55,229,200,.4)}
-  .chip.more{color:var(--dim)}
+/* панель питания */
+.power-panel{--c:var(--acc);background:var(--panel);border:1px solid var(--line);border-radius:18px;
+  padding:28px 26px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;
+  transition:border-color .4s,box-shadow .4s}
+.power-panel::before{content:"";position:absolute;top:0;left:26px;right:26px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--c),transparent);opacity:.5;transition:.4s}
+.power-panel.on{border-color:rgba(255,194,75,.4);box-shadow:0 0 40px rgba(255,194,75,.12)}
+.pp-head{display:flex;align-items:center;gap:10px;font:600 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:22px}
+.pp-head svg{width:16px;height:16px;color:var(--acc)}
+.pp-status{font:700 21px/1.25 var(--disp);transition:.3s}
+.power-panel.on .pp-status{color:var(--acc);text-shadow:0 0 20px rgba(255,194,75,.45)}
+.pp-hint{color:var(--muted);font-size:13px;margin-top:8px;min-height:40px}
+.big-toggle{display:block;margin:20px auto 6px;outline:none}
+.bt-track{position:relative;display:flex;width:152px;height:56px;border-radius:100px;background:#101828;
+  border:1px solid var(--line2);transition:.4s;align-items:center;cursor:pointer}
+.bt-txt{position:absolute;top:50%;transform:translateY(-50%);font:700 11px var(--mono);letter-spacing:.14em;color:var(--dim);transition:.3s;pointer-events:none}
+.bt-txt.t-off{left:22px}.bt-txt.t-on{right:22px;opacity:.5}
+.bt-knob{position:absolute;left:5px;top:5px;width:44px;height:44px;border-radius:50%;background:#1c2740;
+  display:grid;place-items:center;color:#67779a;transition:.45s var(--ease);border:1px solid var(--line2)}
+.bt-knob svg{width:20px;height:20px;transition:.45s var(--ease)}
+.big-toggle.on .bt-track{background:linear-gradient(90deg,rgba(255,194,75,.22),rgba(90,167,255,.22));
+  border-color:rgba(255,194,75,.55);box-shadow:0 0 28px rgba(255,194,75,.28),inset 0 0 12px rgba(255,194,75,.12)}
+.big-toggle.on .bt-knob{transform:translateX(96px);background:var(--acc);color:var(--acc-ink);border-color:transparent;box-shadow:0 0 18px rgba(255,194,75,.6)}
+.big-toggle.on .bt-knob svg{transform:rotate(90deg)}
+.big-toggle.on .bt-txt.t-off{opacity:0}.big-toggle.on .bt-txt.t-on{opacity:1;color:var(--acc)}
+.big-toggle:not(.on):hover .bt-knob{box-shadow:0 0 0 7px rgba(255,255,255,.04)}
+.big-toggle.on:hover .bt-knob{box-shadow:0 0 26px rgba(255,194,75,.75)}
+.big-toggle:focus-visible .bt-track{outline:2px solid var(--acc);outline-offset:3px}
+.pp-foot{font:500 10.5px var(--mono);color:var(--dim);text-align:center;margin-top:10px;letter-spacing:.04em}
+.pp-log{min-height:78px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;
+  font:500 10.5px/1.75 var(--mono);color:var(--mint);margin-top:20px;overflow:hidden}
+.pp-log .ln{opacity:0;transform:translateX(-4px);animation:lnIn .35s var(--ease) forwards;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@keyframes lnIn{to{opacity:1;transform:none}}
+.pp-log .ln.dim{color:var(--dim)}
+.pp-log .ln.ok{color:var(--mint)}
 
-  .mini-bars{display:flex;flex-direction:column;gap:11px;font-family:var(--fm);font-size:11.5px}
-  .mini-bar{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;color:var(--dim)}
-  .mini-bar .track{height:4px;border-radius:3px;background:var(--line);overflow:hidden}
-  .mini-bar .track i{display:block;height:100%;background:var(--accent);border-radius:3px;width:0;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
-  .mini-bar b{color:var(--accent);font-weight:500;min-width:36px;text-align:right}
+/* окно Telegram (общее) */
+.tg-window{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  display:flex;flex-direction:column;min-height:506px;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.tg-window.mini{min-height:460px;height:470px;max-width:880px;margin:0 auto;width:100%}
+.tg-titlebar{display:flex;align-items:center;gap:14px;height:46px;padding:0 16px;border-bottom:1px solid var(--line);background:var(--bg2);flex:none}
+.tb-dots{display:flex;gap:7px}
+.tb-dots i{width:11px;height:11px;border-radius:50%;background:#1e2a44}
+.tb-dots i:first-child{background:#3a2c33}.tb-dots i:nth-child(2){background:#38321f}.tb-dots i:last-child{background:#20362c}
+.tb-name{font:600 12.5px var(--mono);color:var(--muted)}
+.tb-live{margin-left:auto;font:700 9.5px var(--mono);letter-spacing:.12em;color:var(--mint);
+  border:1px solid rgba(70,229,167,.35);border-radius:100px;padding:3px 9px;text-transform:uppercase}
+.tg-conn{margin-left:auto;font:600 11px var(--mono);letter-spacing:.05em;color:var(--dim);display:inline-flex;align-items:center;gap:7px;transition:.3s}
+.tg-conn::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--dim);transition:.3s}
+.tg-conn.ok{color:var(--mint)}.tg-conn.ok::before{background:var(--mint);box-shadow:0 0 8px var(--mint)}
+.tg-conn.wait{color:var(--blue)}.tg-conn.wait::before{background:var(--blue);animation:pulse 1s infinite}
+.tg-conn.err{color:var(--coral)}.tg-conn.err::before{background:var(--coral)}
+.tg-body{flex:1;display:flex;min-height:0}
 
-  .mini-tree{font-family:var(--fm);font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;gap:6px}
-  .mini-tree .row{display:flex;align-items:center;gap:9px}
-  .mini-tree .row svg{width:14px;height:14px;color:var(--dim);flex:none}
-  .mini-tree .pct{margin-left:auto;font-size:11px;border-radius:6px;padding:2px 8px}
-  .pct.hi{color:var(--accent);background:var(--accent-soft)}
-  .pct.mid{color:var(--blue);background:var(--blue-soft)}
-  .pct.low{color:var(--dim);background:var(--panel-2)}
+/* список чатов */
+.tg-side{width:232px;flex:none;border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+.tg-window.mini .tg-side{width:196px}
+.tg-search{margin:12px;height:34px;border-radius:10px;background:var(--bg2);border:1px solid var(--line);
+  display:flex;align-items:center;padding:0 12px;font-size:12.5px;color:var(--dim);gap:8px;flex:none}
+.tg-search svg{width:13px;height:13px}
+.tg-chats-wrap{position:relative;flex:1;min-height:0}
+.tg-chats{height:100%;overflow-y:auto;padding:2px 8px 10px}
+#tgWin:not(.live) .tg-chats{pointer-events:none}
+.tg-chat-item{display:flex;gap:11px;align-items:center;padding:9px 8px;border-radius:12px;cursor:pointer;
+  opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease),transform .5s var(--ease),background .2s}
+.tg-chat-item.show{opacity:1;transform:none}
+.tg-chat-item:hover{background:rgba(255,255,255,.03)}
+.tg-chat-item.active{background:rgba(255,194,75,.08)}
+.tg-chat-item.active .ci-name{color:var(--acc)}
+.ava{border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;flex:none}
+.tg-chat-item .ava{width:42px;height:42px;font-size:15px}
+.h1{background:#7a4dd8}.h2{background:#2d7fd6}.h3{background:#c25676}.h4{background:#2ba871}.h5{background:#c78a35}.h6{background:#5a6478}
+.ci-text{flex:1;min-width:0}
+.ci-top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.ci-name{font-weight:700;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:.2s}
+.ci-time{font:400 10.5px var(--mono);color:var(--dim);flex:none}
+.ci-prev{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.unread{display:none;min-width:19px;height:19px;padding:0 6px;border-radius:10px;background:var(--acc);
+  color:var(--acc-ink);font:800 11px/19px var(--body);text-align:center;flex:none;place-items:center}
+.chats-skels{position:absolute;inset:0;padding:2px 8px 10px;transition:opacity .45s;z-index:2;pointer-events:none;background:var(--panel)}
+.chats-skels.hide{opacity:0}
+.sk-chat{display:flex;gap:11px;align-items:center;padding:9px 6px}
+.sk-ava{width:42px;height:42px;border-radius:50%;flex:none}
+.sk-l{flex:1;display:flex;flex-direction:column;gap:8px}
+.sk-l i{display:block;height:9px;border-radius:5px}
+.sk-l i:first-child{width:58%}.sk-l i:last-child{width:82%}
+.skel{background:linear-gradient(90deg,#131c30 25%,#1d2a45 37%,#131c30 63%);background-size:400% 100%;animation:shimmer 1.5s infinite linear}
+@keyframes shimmer{0%{background-position:100% 0}100%{background-position:0 0}}
 
-  .pipeline{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-family:var(--fm);font-size:11.5px;color:var(--muted)}
-  .pipeline .stage{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:8px;padding:6px 11px;background:var(--bg-2)}
-  .pipeline .stage svg{width:13px;height:13px;color:var(--accent)}
-  .pipeline .arr{color:var(--dim)}
+/* правая часть: чат */
+.tg-main{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0;position:relative}
+.tg-peer{display:flex;align-items:center;gap:11px;padding:10px 16px;border-bottom:1px solid var(--line);flex:none}
+.tg-peer .ava{width:36px;height:36px;font-size:13px}
+.peer-name{font-weight:700;font-size:13.5px;line-height:1.25}
+.peer-st{font-size:11.5px;color:var(--dim);display:inline-flex;align-items:center;gap:6px;transition:.3s}
+.peer-st::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--dim);transition:.3s}
+.peer-st.on{color:var(--mint)}.peer-st.on::before{background:var(--mint);box-shadow:0 0 6px var(--mint)}
+.peer-st.wait{color:var(--blue)}.peer-st.wait::before{background:var(--blue);animation:pulse 1s infinite}
+.tg-msgs{flex:1;min-height:0;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:2px}
+.msg{display:flex;margin-top:8px;opacity:0;transform:translateY(12px);transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.msg.show{opacity:1;transform:none}
+.msg.in{justify-content:flex-start}
+.msg.out{justify-content:flex-end}
+.msg.new-in{animation:msgPop .55s var(--ease)}
+@keyframes msgPop{0%{opacity:0;transform:translateY(16px) scale(.92)}60%{transform:translateY(-3px) scale(1.01)}100%{opacity:1;transform:none}}
+.bub{max-width:78%;padding:8px 12px;font-size:13px;line-height:1.45;border-radius:14px}
+.msg.in .bub{background:var(--panel2);border:1px solid var(--line);border-bottom-left-radius:5px}
+.msg.out .bub{background:rgba(255,194,75,.12);border:1px solid rgba(255,194,75,.32);border-bottom-right-radius:5px}
+.bub .t{font:400 10px var(--mono);color:var(--dim);margin-left:8px;white-space:nowrap}
+.msg.out .bub .t{color:rgba(255,194,75,.75)}
+.typing-row{display:none;align-items:center;gap:9px;margin:10px 4px 2px;font:500 11.5px var(--mono);color:var(--muted)}
+.typing-row.on{display:flex}
+.tdots{display:inline-flex;gap:4px}
+.tdots i{width:5px;height:5px;border-radius:50%;background:var(--acc);animation:tb 1s infinite}
+.tdots i:nth-child(2){animation-delay:.15s}.tdots i:nth-child(3){animation-delay:.3s}
+@keyframes tb{0%,60%,100%{transform:none;opacity:.4}30%{transform:translateY(-4px);opacity:1}}
 
-  .ver-flow{display:flex;align-items:center;gap:12px;font-family:var(--fm);font-size:12.5px}
-  .ver-flow .v{border:1px solid var(--line);border-radius:8px;padding:6px 12px;background:var(--bg-2)}
-  .ver-flow .v.new{border-color:rgba(55,229,200,.4);color:var(--accent)}
-  .ver-flow svg{width:16px;height:16px;color:var(--dim)}
+/* оверлей загрузки/ошибки */
+.tg-overlay{position:absolute;inset:0;display:grid;place-items:center;z-index:5;
+  background:rgba(7,11,20,.74);backdrop-filter:blur(6px);transition:opacity .5s;text-align:center;padding:20px}
+.tg-overlay.gone{opacity:0;pointer-events:none}
+.ov-view{display:none;flex-direction:column;align-items:center;gap:12px}
+.tg-overlay[data-state="spin"] .ov-spin{display:flex}
+.tg-overlay[data-state="error"] .ov-error{display:flex}
+.tg-overlay[data-state="ok"] .ov-ok{display:flex}
+.spin{width:42px;height:42px;border-radius:50%;border:3px solid rgba(255,255,255,.1);border-top-color:var(--blue);animation:rot .9s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.ov-t{font:600 13.5px var(--mono);color:var(--muted);letter-spacing:.03em}
+.ov-ic{color:var(--coral)}
+.ov-ic svg{width:44px;height:44px}
+.ov-t2{font:700 17px var(--body)}
+.ov-t3{color:var(--muted);font-size:13px;margin-top:-6px}
+.ov-check{width:46px;height:46px;border-radius:50%;background:rgba(70,229,167,.12);border:1px solid rgba(70,229,167,.45);
+  display:grid;place-items:center;color:var(--mint);box-shadow:0 0 20px rgba(70,229,167,.25)}
+.ov-check svg{width:22px;height:22px}
 
-  .doc-line{display:flex;align-items:center;gap:11px;font-family:var(--fm);font-size:12.5px;color:var(--muted);border:1px dashed var(--line-2);border-radius:10px;padding:11px 14px}
-  .doc-line svg{width:16px;height:16px;color:var(--accent);flex:none}
+/* ═════════════ ДЕМО-ЗОНА (внутри верха страницы) ═════════════ */
+.try-zone{margin-top:88px;width:100%}
+.try-zone .sec-head{margin-bottom:30px}
+.sec-tag{font:600 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
+.sec-head h2{font:700 clamp(24px,3.6vw,34px)/1.15 var(--disp);margin:14px 0 14px}
+.sec-head p{color:var(--muted);font-size:15.5px}
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px}
+.tab{display:inline-flex;align-items:center;gap:9px;padding:12px 20px;border-radius:12px;border:1px solid var(--line);
+  background:var(--panel);color:var(--muted);font-weight:700;font-size:14px;transition:.25s var(--ease)}
+.tab svg{width:17px;height:17px}
+.tab:hover{color:var(--text);border-color:var(--line2)}
+.tab.active{color:var(--acc);border-color:rgba(255,194,75,.5);background:rgba(255,194,75,.07);box-shadow:0 0 18px rgba(255,194,75,.15)}
+.pane{display:none}
+.pane.active{display:block;animation:paneIn .45s var(--ease)}
+@keyframes paneIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.demo-tip{font:500 12px var(--mono);color:var(--dim);margin-top:16px;letter-spacing:.02em;text-align:center}
+.chips{display:flex;gap:8px;flex-wrap:wrap;padding:10px 14px;border-top:1px solid var(--line);flex:none}
+.chip{font-size:12px;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:100px;padding:6px 12px;transition:.2s}
+.chip:hover{color:var(--acc);border-color:rgba(255,194,75,.45);background:rgba(255,194,75,.06)}
+.tg-inputbar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line);flex:none}
+.ib-ic{color:var(--dim)}.ib-ic svg{width:18px;height:18px}
+.tg-inputbar input{flex:1;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:10px 14px;
+  color:var(--text);font:inherit;font-size:13.5px;outline:none;transition:.2s;min-width:0}
+.tg-inputbar input:focus{border-color:rgba(255,194,75,.5);box-shadow:0 0 0 3px rgba(255,194,75,.12)}
+.send-btn{width:40px;height:40px;border-radius:12px;background:var(--acc);color:var(--acc-ink);display:grid;place-items:center;transition:.2s;flex:none}
+.send-btn svg{width:17px;height:17px}
+.send-btn:hover{box-shadow:0 0 16px rgba(255,194,75,.5);transform:translateY(-1px)}
+.d1-msgs{transition:opacity .2s,transform .2s}
+.d1-msgs.fade{opacity:0;transform:translateX(16px)}
+.ticks{color:var(--dim);display:inline-flex;vertical-align:-3px;margin-right:5px}
+.ticks svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.ticks.read{color:var(--acc)}
+.d3-controls{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.mini-switch{display:inline-flex;align-items:center;gap:10px;font:700 13px var(--body);color:var(--muted);transition:.2s}
+.mini-switch:hover{color:var(--text)}
+.mini-switch.on{color:var(--acc)}
+.ms-track{width:46px;height:26px;border-radius:20px;background:#101828;border:1px solid var(--line2);position:relative;transition:.3s;flex:none}
+.ms-knob{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#67779a;transition:.3s var(--ease)}
+.mini-switch.on .ms-track{background:rgba(255,194,75,.2);border-color:rgba(255,194,75,.55);box-shadow:0 0 12px rgba(255,194,75,.25)}
+.mini-switch.on .ms-knob{transform:translateX(20px);background:var(--acc);box-shadow:0 0 8px rgba(255,194,75,.6)}
+.bub.media-bub{padding:6px;max-width:88%}
+.media{position:relative;width:100%;aspect-ratio:16/10;border-radius:10px;overflow:hidden;background:#080d18}
+.media-art{position:absolute;inset:0;opacity:.14;filter:blur(6px) saturate(.5);transition:opacity 1s var(--ease),filter 1s var(--ease);
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 400'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23101a33'/%3E%3Cstop offset='1' stop-color='%23070b14'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%235aa7ff'/%3E%3Cstop offset='1' stop-color='%23ffc24b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='640' height='400' fill='url(%23a)'/%3E%3Ccircle cx='210' cy='52' r='2' fill='%235aa7ff' opacity='.8'/%3E%3Ccircle cx='420' cy='38' r='1.6' fill='%23fff' opacity='.6'/%3E%3Ccircle cx='530' cy='90' r='2' fill='%23ffc24b' opacity='.7'/%3E%3Ccircle cx='90' cy='120' r='1.5' fill='%23fff' opacity='.5'/%3E%3Ccircle cx='320' cy='190' r='95' fill='url(%23b)' opacity='.85'/%3E%3Cpath d='M240 165 H400 M232 192 H408 M228 220 H412' stroke='%23070b14' stroke-width='10' opacity='.55'/%3E%3Cpath d='M0 285 L110 205 L210 285' fill='%23132038'/%3E%3Cpath d='M430 285 L540 195 L640 285' fill='%23132038'/%3E%3Cpath d='M0 285 H640' stroke='%235aa7ff' opacity='.5'/%3E%3Cpath d='M0 305 H640 M0 330 H640 M0 362 H640' stroke='%239d7bff' opacity='.35'/%3E%3Cpath d='M80 400 L280 285 M200 400 L305 285 M320 400 L320 285 M440 400 L335 285 M560 400 L360 285' stroke='%239d7bff' opacity='.3'/%3E%3C/svg%3E") center/cover}
+.media-bub.up .media-art{opacity:.3}
+.media-bub.done .media-art{opacity:1;filter:none}
+.media-hint{position:absolute;inset:0;display:grid;place-items:center;font:500 12px var(--mono);color:var(--dim)}
+.media-bub.up .media-hint,.media-bub.done .media-hint{display:none}
+.media-load{position:absolute;left:10px;right:10px;bottom:10px;opacity:0;transition:.3s;pointer-events:none}
+.media-bub.up .media-load{opacity:1}
+.pbar{height:6px;border-radius:6px;background:rgba(255,255,255,.09);overflow:hidden}
+.pbar i{display:block;height:100%;width:0%;border-radius:6px;background:var(--acc);box-shadow:0 0 10px rgba(255,194,75,.6);transition:width .12s linear}
+.media-bub.stuck .pbar i{background:var(--coral);box-shadow:0 0 10px rgba(255,109,109,.55)}
+.prow{display:flex;justify-content:space-between;margin-top:6px;font:500 10.5px var(--mono);color:var(--muted)}
+.perr{margin-top:6px;font:500 11px var(--mono);color:var(--coral);opacity:0;transition:.3s}
+.perr.show{opacity:1}
+.cap{padding:7px 8px 3px;font-size:12.5px;color:var(--muted)}
 
-  /* ---------- демо ---------- */
-  .demo-grid{display:grid;grid-template-columns:5fr 7fr;gap:20px;align-items:start}
-  @media(max-width:960px){.demo-grid{grid-template-columns:1fr}}
-  .demo-panel{border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-2);overflow:hidden}
-  .demo-panel-head{display:flex;align-items:center;gap:10px;padding:15px 20px;border-bottom:1px solid var(--line);font-family:var(--fm);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
-  .demo-panel-head svg{width:15px;height:15px;color:var(--accent)}
-  .demo-panel-body{padding:20px}
+/* ═════════════ ЗАГОЛОВКИ СЕКЦИЙ ═════════════ */
+.sec-head{max-width:660px;margin-bottom:46px}
 
-  .dropzone{
-    border:1.5px dashed var(--line-2);border-radius:14px;padding:34px 20px;text-align:center;
-    transition:border-color .2s,background .2s;cursor:pointer;background:rgba(125,206,220,.02);
-  }
-  .dropzone:hover,.dropzone:focus-visible{border-color:var(--accent);background:var(--accent-soft)}
-  .dropzone.over{border-color:var(--accent);background:var(--accent-soft);transform:scale(1.01)}
-  .dropzone.flash{animation:flash 1.2s ease}
-  @keyframes flash{0%,100%{background:rgba(125,206,220,.02)}30%{background:var(--accent-soft)}}
-  .dropzone svg{width:34px;height:34px;margin:0 auto 12px;color:var(--accent)}
-  .dropzone .dz-t{font-weight:600;font-size:15.5px}
-  .dropzone .dz-s{color:var(--dim);font-size:13px;margin-top:5px}
-  .dz-actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+/* ═════════════ ВОЗМОЖНОСТИ ═════════════ */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.feat{--c:var(--acc);--cb:rgba(255,194,75,.4);--cbg:rgba(255,194,75,.1);background:var(--panel);border:1px solid var(--line);
+  border-radius:16px;padding:24px;transition:.3s var(--ease);position:relative;overflow:hidden}
+.feat::before{content:"";position:absolute;top:0;left:24px;right:24px;height:1px;background:var(--c);opacity:0;transition:.3s}
+.feat:hover{transform:translateY(-4px);border-color:var(--cb);box-shadow:0 14px 40px rgba(0,0,0,.4),0 0 26px var(--cbg)}
+.feat:hover::before{opacity:.8}
+.f-violet{--c:var(--vio);--cb:rgba(157,123,255,.45);--cbg:rgba(157,123,255,.1)}
+.f-blue{--c:var(--blue);--cb:rgba(90,167,255,.45);--cbg:rgba(90,167,255,.1)}
+.f-mint{--c:var(--mint);--cb:rgba(70,229,167,.4);--cbg:rgba(70,229,167,.1)}
+.f-coral{--c:var(--coral);--cb:rgba(255,109,109,.4);--cbg:rgba(255,109,109,.1)}
+.f-ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;color:var(--c);background:var(--cbg);border:1px solid var(--cb);margin-bottom:16px}
+.f-ic svg{width:20px;height:20px}
+.feat h3{font:700 16px var(--body);margin-bottom:8px}
+.feat p{color:var(--muted);font-size:13.5px}
+.f-note{margin-top:12px;font:500 11px var(--mono);color:var(--c);opacity:.9;letter-spacing:.04em}
+.ping{display:flex;gap:4px;align-items:flex-end;height:40px;margin-top:14px}
+.ping i{width:5px;border-radius:3px;background:var(--blue);box-shadow:0 0 8px rgba(90,167,255,.5);
+  height:calc(12px + var(--h)*26px);transform-origin:bottom;animation:eq 1.3s ease-in-out infinite alternate;animation-delay:var(--d)}
+@keyframes eq{from{transform:scaleY(.35)}to{transform:scaleY(1.12)}}
 
-  .file-list{margin-top:18px;display:flex;flex-direction:column;gap:8px;max-height:240px;overflow-y:auto;padding-right:4px}
-  .file-item{
-    display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:11px;
-    padding:9px 13px;background:var(--panel);animation:fileIn .3s ease;
-  }
-  @keyframes fileIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-  .file-item svg{width:16px;height:16px;color:var(--accent);flex:none}
-  .file-item .fi-name{font-family:var(--fm);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .file-item .fi-meta{margin-left:auto;font-family:var(--fm);font-size:11px;color:var(--dim);flex:none}
-  .file-item .fi-del{
-    flex:none;width:26px;height:26px;border-radius:7px;border:none;background:transparent;color:var(--dim);
-    display:grid;place-items:center;transition:color .15s,background .15s;
-  }
-  .file-item .fi-del:hover{color:var(--warm);background:var(--warm-soft)}
-  .file-item .fi-del svg{width:13px;height:13px;color:inherit}
-  .empty-hint{color:var(--dim);font-size:13.5px;text-align:center;padding:10px 0}
+/* ═════════════ КАК ЭТО РАБОТАЕТ ═════════════ */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;position:relative}
+.steps::before{content:"";position:absolute;top:31px;left:14%;right:14%;border-top:1px dashed rgba(255,194,75,.25)}
+.step{position:relative;padding:0 4px}
+.s-num{font:800 12px var(--mono);color:var(--acc);letter-spacing:.22em;margin-bottom:14px}
+.s-ic{width:62px;height:62px;border-radius:18px;background:var(--panel);border:1px solid var(--line2);display:grid;
+  place-items:center;color:var(--acc);margin-bottom:18px;position:relative;z-index:1;box-shadow:0 0 0 7px var(--bg)}
+.s-ic svg{width:26px;height:26px}
+.step h3{font:700 17px var(--body);margin-bottom:8px}
+.step p{color:var(--muted);font-size:14px}
 
-  .analyze-row{display:flex;gap:10px;margin-top:18px}
-  .analyze-row .btn{flex:1}
+/* ═════════════ СКАЧАТЬ ═════════════ */
+.dl-card{display:grid;grid-template-columns:1.15fr .85fr;gap:44px;background:var(--panel);border:1px solid var(--line);
+  border-radius:20px;padding:44px;position:relative;overflow:hidden}
+.dl-card::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(440px 190px at 88% 0%,rgba(255,194,75,.08),transparent 70%)}
+.dl-file{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+.dl-file svg{width:38px;height:38px;color:var(--acc);flex:none}
+.dl-file .fn{font:600 16px var(--mono);color:var(--text)}
+.dl-file .fv{font:500 11.5px var(--mono);color:var(--dim)}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:11px 28px}
+.meta dt{color:var(--muted);font-size:13.5px}
+.meta dd{font:600 13px var(--mono);color:var(--text)}
+.sha{margin-top:20px;font:500 10.5px var(--mono);color:var(--dim);word-break:break-all}
+.dl-side{display:flex;flex-direction:column;gap:16px;justify-content:center;position:relative;z-index:1}
+.bullets{display:flex;flex-direction:column;gap:10px}
+.bullets li{display:flex;gap:10px;align-items:flex-start;color:var(--muted);font-size:13.5px}
+.bullets svg{width:16px;height:16px;color:var(--mint);flex:none;margin-top:2px}
 
-  /* прогресс */
-  .progress-block{display:none;padding:18px 20px;border-bottom:1px solid var(--line)}
-  .progress-block.show{display:block}
-  .pb-top{display:flex;justify-content:space-between;font-family:var(--fm);font-size:12px;margin-bottom:9px}
-  .pb-top .stage{color:var(--muted)}
-  .pb-top .num{color:var(--accent)}
-  .pb-track{height:5px;border-radius:4px;background:var(--line);overflow:hidden}
-  .pb-track i{display:block;height:100%;width:0;background:var(--accent);border-radius:4px;transition:width .25s ease}
+/* ═════════════ FAQ ═════════════ */
+.faq{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.qa{background:var(--panel);border:1px solid var(--line);border-radius:14px;transition:.3s}
+.qa.open{border-color:rgba(255,194,75,.35)}
+.q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 20px;font:700 15px var(--body);text-align:left}
+.q svg{width:18px;height:18px;flex:none;color:var(--dim);transition:.35s var(--ease)}
+.qa.open .q svg{transform:rotate(180deg);color:var(--acc)}
+.a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s var(--ease)}
+.qa.open .a{grid-template-rows:1fr}
+.a-in{overflow:hidden}
+.a p{padding:0 20px 18px;color:var(--muted);font-size:14px}
 
-  .result-empty{padding:56px 24px;text-align:center;color:var(--dim);font-size:14.5px}
-  .result-empty svg{width:30px;height:30px;margin:0 auto 14px;color:var(--line-2)}
+/* ═════════════ ПОДВАЛ ═════════════ */
+footer{border-top:1px solid var(--line);padding:46px 0 34px;margin-top:20px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px}
+.foot-brand p{color:var(--muted);font-size:13px;margin-top:12px;max-width:300px}
+.f-col h4{font:700 13px var(--body);margin-bottom:12px}
+.f-col a{display:block;color:var(--muted);font-size:13.5px;padding:4px 0;transition:.2s}
+.f-col a:hover{color:var(--acc)}
+.foot-bottom{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;border-top:1px solid var(--line);
+  margin-top:34px;padding-top:20px;color:var(--dim);font-size:12px}
 
-  /* таблица пар */
-  .pairs-wrap{display:none;overflow-x:auto}
-  .pairs-wrap.show{display:block}
-  .pairs-table{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
-  .pairs-table th{
-    text-align:left;font:500 11px var(--fm);text-transform:uppercase;letter-spacing:.14em;
-    color:var(--dim);padding:12px 18px;border-bottom:1px solid var(--line);
-  }
-  .pairs-table td{padding:13px 18px;border-bottom:1px solid var(--line)}
-  .pairs-table tr.pair-row{cursor:pointer;transition:background .15s}
-  .pairs-table tr.pair-row:hover{background:var(--panel)}
-  .pairs-table tr.pair-row.active{background:var(--panel-2)}
-  .pair-names{font-family:var(--fm);font-size:12.5px;max-width:340px}
-  .pair-names .sep{color:var(--dim);margin:0 7px}
-  .meter{width:120px;height:4px;border-radius:3px;background:var(--line);overflow:hidden}
-  .meter i{display:block;height:100%;background:var(--accent);border-radius:3px}
-  .pairs-foot{padding:13px 18px;font-family:var(--fm);font-size:12px;color:var(--dim)}
-
-  /* diff */
-  .diff{display:none;border-top:1px solid var(--line)}
-  .diff.show{display:block}
-  .diff-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:16px 20px;border-bottom:1px solid var(--line)}
-  .diff-head .pair-title{font-family:var(--fm);font-size:13px}
-  .diff-head .pair-title b{color:var(--accent);font-weight:500}
-  .legend{display:flex;gap:16px;margin-left:auto;font-size:12px;color:var(--dim)}
-  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
-  .legend .l-eq i{background:var(--accent-soft);box-shadow:inset 2px 0 0 var(--accent)}
-  .legend .l-uniq i{background:var(--warm-soft);box-shadow:inset 2px 0 0 var(--warm)}
-  .diff-cols{display:grid;grid-template-columns:1fr 1fr}
-  .diff-pane{min-width:0;overflow-x:auto;padding:10px 0;font-family:var(--fm);font-size:12.5px;line-height:1.65}
-  .diff-pane+.diff-pane{border-left:1px solid var(--line)}
-  .dline{display:grid;grid-template-columns:44px 1fr;padding:0 0}
-  .dline .dn{text-align:right;padding-right:12px;color:var(--dim);user-select:none;font-size:11px;line-height:inherit}
-  .dline code{white-space:pre;color:var(--muted);padding-right:14px}
-  .dline.eq{background:var(--accent-soft);box-shadow:inset 2px 0 0 var(--accent)}
-  .dline.eq code{color:var(--text)}
-  .dline.uniq{background:var(--warm-soft);box-shadow:inset 2px 0 0 var(--warm)}
-  .dline.gap{opacity:.5}
-  .dline.gap .gapline{border-top:1px dashed var(--line-2);margin:11px 14px 0 0}
-  @media(max-width:720px){.diff-cols{grid-template-columns:1fr}.diff-pane+.diff-pane{border-left:none;border-top:1px solid var(--line)}}
-
-  /* ---------- статистика ---------- */
-  .stats{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2)}
-  .stats-row{display:flex;flex-wrap:wrap}
-  .stat{flex:1 1 220px;padding:52px 32px;border-right:1px solid var(--line)}
-  .stat:last-child{border-right:none}
-  @media(max-width:720px){.stat{flex:1 1 46%;padding:34px 20px;border-bottom:1px solid var(--line)}.stat:nth-child(3),.stat:nth-child(4){border-bottom:none}.stat:nth-child(2n){border-right:none}}
-  .stat .num{font-family:var(--fd);font-weight:600;font-size:clamp(26px,3.2vw,38px);color:var(--text);letter-spacing:-.01em}
-  .stat .num em{font-style:normal;color:var(--accent)}
-  .stat .lbl{color:var(--muted);font-size:14px;margin-top:8px}
-
-  /* ---------- карточка скачивания ---------- */
-  .plan{
-    border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);
-    padding:32px 28px;display:flex;flex-direction:column;transition:border-color .25s;
-  }
-  .plan:hover{border-color:var(--line-2)}
-
-  /* ---------- отзывы ---------- */
-  .reviews-grid{display:grid;grid-template-columns:7fr 5fr;gap:18px}
-  @media(max-width:900px){.reviews-grid{grid-template-columns:1fr}}
-  .review{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:30px;display:flex;flex-direction:column;gap:18px}
-  .review.big .q{font-size:19px}
-  .review-col{display:flex;flex-direction:column;gap:18px}
-  .review-col .review{flex:1}
-  .review .q{font-size:16.5px;line-height:1.65;color:var(--text)}
-  .review .who{display:flex;align-items:center;gap:13px;margin-top:auto}
-  .review .ava{width:40px;height:40px;border-radius:50%;background:var(--accent-deep);border:1px solid var(--line-2);display:grid;place-items:center;font-family:var(--fm);font-size:13px;color:var(--accent);flex:none}
-  .review .who b{display:block;font-size:14.5px;font-weight:600}
-  .review .who span{font-size:12.5px;color:var(--dim)}
-  .partners{margin-top:44px;padding-top:32px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:14px 40px;align-items:center}
-  .partners .p-lbl{font-family:var(--fm);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
-  .partners span{font-family:var(--fm);font-size:14px;color:var(--muted);opacity:.7;transition:opacity .2s,color .2s}
-  .partners span:hover{opacity:1;color:var(--accent)}
-
-  /* ---------- faq + форма ---------- */
-  .faq-grid{display:grid;grid-template-columns:5fr 7fr;gap:64px;align-items:start}
-  @media(max-width:960px){.faq-grid{grid-template-columns:1fr;gap:44px}}
-  .faq-item{border:1px solid var(--line);border-radius:14px;background:var(--panel);margin-bottom:12px;overflow:hidden;transition:border-color .25s}
-  .faq-item.open{border-color:var(--line-2)}
-  .faq-q{
-    width:100%;display:flex;align-items:center;gap:14px;text-align:left;background:transparent;border:none;
-    color:var(--text);font:600 15.5px var(--fb);padding:19px 22px;
-  }
-  .faq-q .chev{margin-left:auto;flex:none;width:18px;height:18px;color:var(--dim);transition:transform .3s,color .3s}
-  .faq-item.open .chev{transform:rotate(180deg);color:var(--accent)}
-  .faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.16,1,.3,1)}
-  .faq-item.open .faq-a{grid-template-rows:1fr}
-  .faq-a>div{overflow:hidden}
-  .faq-a p{padding:0 22px 20px;color:var(--muted);font-size:14.5px}
-
-  .contact-card{border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-2);padding:34px}
-  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  @media(max-width:560px){.form-row{grid-template-columns:1fr}}
-  .field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
-  .field label{font-size:13px;font-weight:600;color:var(--muted)}
-  .field input,.field select,.field textarea{
-    font:500 14.5px var(--fb);color:var(--text);background:var(--panel);border:1px solid var(--line);
-    border-radius:11px;padding:12px 15px;transition:border-color .18s,background .18s;width:100%;
-    appearance:none;
-  }
-  .field textarea{resize:vertical;min-height:96px}
-  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent);background:var(--panel-2)}
-  .field input.err{border-color:var(--warm)}
-  .field .err-msg{display:none;font-size:12px;color:var(--warm)}
-  .field.has-err .err-msg{display:block}
-  .field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394b8c1' stroke-width='2.4'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center}
-  .contact-side h3{font-family:var(--fd);font-weight:500;font-size:20px;margin-bottom:14px}
-  .contact-side p{color:var(--muted);font-size:15px;margin-bottom:26px}
-  .contact-links{display:flex;flex-direction:column;gap:12px}
-  .contact-links a{display:flex;align-items:center;gap:12px;color:var(--muted);font-family:var(--fm);font-size:13.5px;transition:color .18s}
-  .contact-links a:hover{color:var(--accent)}
-  .contact-links svg{width:16px;height:16px;color:var(--accent);flex:none}
-
-  /* ---------- подвал ---------- */
-  footer{border-top:1px solid var(--line);padding:60px 0 34px;background:var(--bg-2)}
-  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:36px;margin-bottom:48px}
-  @media(max-width:820px){.foot-grid{grid-template-columns:1fr 1fr}}
-  @media(max-width:480px){.foot-grid{grid-template-columns:1fr}}
-  .foot-brand p{color:var(--dim);font-size:13.5px;margin-top:14px;max-width:250px}
-  .foot-col h4{font-family:var(--fm);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:16px}
-  .foot-col a{display:block;color:var(--muted);font-size:14px;padding:5px 0;transition:color .18s}
-  .foot-col a:hover{color:var(--accent)}
-  .foot-bottom{border-top:1px solid var(--line);padding-top:26px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--dim);font-size:13px}
-
-  /* ---------- тосты ---------- */
-  .toaster{position:fixed;bottom:24px;right:24px;z-index:100;display:flex;flex-direction:column;gap:10px;max-width:min(360px,calc(100vw - 48px))}
-  .toast{
-    display:flex;align-items:flex-start;gap:11px;background:var(--bg-3);border:1px solid var(--line-2);
-    border-radius:13px;padding:14px 17px;font-size:14px;box-shadow:0 16px 44px rgba(0,0,0,.5);
-    animation:toastIn .3s cubic-bezier(.16,1,.3,1);
-  }
-  .toast.out{animation:toastOut .3s ease forwards}
-  @keyframes toastIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
-  @keyframes toastOut{to{opacity:0;transform:translateY(10px)}}
-  .toast svg{width:17px;height:17px;color:var(--accent);flex:none;margin-top:2px}
-  .toast.warn svg{color:var(--warm)}
-
-  /* ---------- reveal ---------- */
-  .reveal{opacity:0;transform:translateY(26px);transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1)}
-  .reveal.in{opacity:1;transform:none}
-  @media(prefers-reduced-motion:reduce){
-    *,*::before,*::after{animation:none!important;transition:none!important}
-    html{scroll-behavior:auto}
-    .reveal{opacity:1;transform:none}
-  }
+/* ═════════════ АДАПТИВ ═════════════ */
+@media (max-width:1020px){
+  .stage{grid-template-columns:1fr}
+  .power-panel{max-width:560px;width:100%;margin:0 auto}
+}
+@media (max-width:900px){
+  .head-nav{display:none}
+  .burger{display:block}
+  .feat-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (min-width:901px){.mobile-nav{display:none}}
+@media (max-width:680px){
+  .head-cta{display:none}
+  section{padding:72px 0}
+  .hero{padding:122px 0 64px}
+  .try-zone{margin-top:64px}
+  .tg-window:not(.mini) .tg-side{display:none}
+  .tg-window.mini .tg-side{width:150px}
+  .tg-window.mini .ci-time{display:none}
+  .dl-card{grid-template-columns:1fr;padding:28px;gap:28px}
+  .steps{grid-template-columns:1fr;gap:34px}
+  .steps::before{display:none}
+  .feat-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .tab{padding:10px 14px;font-size:13px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important}
+}
 </style>
 </head>
-<body>
+<body id="top">
+<div class="glow-bg"></div>
 
-<!-- ======== ШАПКА ======== -->
-<header id="siteHeader">
-  <div class="wrap nav">
-    <a class="logo" href="#top" aria-label="Ocean — на главную">
-      <span class="logo-mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#37e5c8" stroke-width="2" stroke-linecap="round"><path d="M3 14c2.5-4.5 5-4.5 7.5 0s5 4.5 7.5 0"/><path d="M3 9c2.5-4.5 5-4.5 7.5 0s5 4.5 7.5 0" opacity=".45"/></svg>
-      </span>
-      Ocean
+<!-- ═══════════ ШАПКА ═══════════ -->
+<header class="site-head" id="siteHead">
+  <div class="container head-in">
+    <a href="#top" class="logo">
+      <svg class="logo-ic" viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="14" fill="#0d1420" stroke="rgba(255,255,255,.12)"/><path d="M12 42 L26 28 L35 37 L52 18" stroke="#5aa7ff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="52" cy="18" r="5" fill="#ffc24b"/></svg>
+      <span class="glitch" data-text="tgWsProxy">tgWsProxy</span>
     </a>
-    <nav class="nav-links" aria-label="Основная навигация">
-      <a href="#features" data-spy="features">Возможности</a>
-      <a href="#how" data-spy="how">Как это работает</a>
-      <a href="#demo" data-spy="demo">Демо</a>
-      <a href="#download" data-spy="download">Скачать</a>
-      <a href="#contacts" data-spy="contacts">Контакты</a>
+    <nav class="head-nav">
+      <a href="#demo">Демо</a>
+      <a href="#how">Как работает</a>
+      <a href="#features">Возможности</a>
+      <a href="#download">Скачать</a>
+      <a href="#faq">FAQ</a>
     </nav>
-    <a href="#download" class="btn btn-primary btn-sm js-download">Скачать</a>
-    <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobileMenu">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-    </button>
+    <!-- ПРЯМАЯ ССЫЛКА: ниже в <script> есть константа DL_LINK — она подменяет все a.dl -->
+    <a class="btn btn-primary btn-sm head-cta dl" href="https://github.com/OceanPlay2/tg-proxy/raw/main/TgWsProxy_windows.exe">Скачать бесплатно</a>
+    <button class="burger" id="burger" aria-label="Меню"><span></span><span></span></button>
   </div>
 </header>
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#features">Возможности</a>
-  <a href="#how">Как это работает</a>
+<nav class="mobile-nav" id="mobileNav">
   <a href="#demo">Демо</a>
+  <a href="#how">Как работает</a>
+  <a href="#features">Возможности</a>
   <a href="#download">Скачать</a>
-  <a href="#contacts">Контакты</a>
-  <a href="#download" class="btn btn-primary js-download">Скачать бесплатно</a>
-</div>
+  <a href="#faq">FAQ</a>
+  <a class="btn btn-primary dl" href="https://github.com/OceanPlay2/tg-proxy/raw/main/TgWsProxy_windows.exe">Скачать бесплатно</a>
+</nav>
 
-<main id="top">
+<main>
+<!-- ═══════════ ВЕРХ СТРАНИЦЫ: ЗАГОЛОВОК + ТУМБЛЕР + ВСЕ ДЕМО ═══════════ -->
+<section class="hero" id="demo">
+  <div class="container hero-inner">
+    <div class="overline reveal"><span class="dot"></span>WebSocket-туннель для Telegram</div>
+    <h1 class="hero-title reveal" style="--d:.05s"><span class="scan"><span class="glitch" id="heroGlitch" data-text="tgWsProxy">tgWsProxy</span></span></h1>
+    <p class="hero-sub reveal" style="--d:.1s">Telegram на ПК — <b>без блокировок</b>. Один тумблер — и мессенджер снова грузится: соединение идёт через лёгкий WebSocket-прокси. Без VPN, без настроек, без рекламы.</p>
+    <div class="hero-cta reveal" style="--d:.15s">
+      <a class="btn btn-primary btn-lg dl" href="https://github.com/OceanPlay2/tg-proxy/raw/main/TgWsProxy_windows.exe">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>
+        Скачать для Windows
+      </a>
+      <a class="btn btn-ghost btn-lg" href="#how">Как это работает</a>
+    </div>
+    <div class="hero-note reveal" style="--d:.2s">v1.4.2 · windows 7/8/10/11 x64 · бесплатно · открытый код</div>
 
-<!-- ======== ГЕРОЙ ======== -->
-<section class="hero" style="padding-top:0;padding-bottom:0">
-  <canvas id="waveCanvas" aria-hidden="true"></canvas>
-  <div class="wrap">
-    <div>
-      <span class="hero-badge"><i aria-hidden="true"></i>Ocean 2.4 — поиск совпадений в коде · бесплатно</span>
-      <h1>Находим копии, плагиат и заимствования <span class="u-wave">в коде<svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8c25-7 50-7 75 0s50 7 75 0 30-4 46 1" fill="none" stroke="#37e5c8" stroke-width="2.5" stroke-linecap="round" opacity=".85"/></svg></span></h1>
-      <p class="lead">Загрузите файлы или целую папку — Ocean сравнит их между собой, покажет процент совпадения каждой пары и подсветит одинаковые строки. Преподавателям, ревьюерам и командам.</p>
-      <div class="hero-cta">
-        <a href="#download" class="btn btn-primary js-download">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0 4.5-4.5M12 15l-4.5-4.5"/><path d="M4 19h16"/></svg>
-          Скачать бесплатно
-        </a>
-        <a href="#demo" class="btn btn-ghost" id="heroUpload">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m10 8.5 5 3.5-5 3.5z"/></svg>
-          Смотреть демо
-        </a>
+    <!-- главный интерактив: макет Telegram + тумблер -->
+    <div class="stage">
+      <div class="tg-window reveal" id="tgWin" style="--d:.1s">
+        <div class="tg-titlebar">
+          <span class="tb-dots"><i></i><i></i><i></i></span>
+          <span class="tb-name">Telegram — Desktop</span>
+          <span class="tg-conn wait" id="connBadge">Подключение…</span>
+        </div>
+        <div class="tg-body">
+          <aside class="tg-side">
+            <div class="tg-search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+              <span>Поиск</span>
+            </div>
+            <div class="tg-chats-wrap">
+              <ul class="tg-chats" id="chatsList">
+                <li class="tg-chat-item"><span class="ava h1">МК</span><span class="ci-text"><span class="ci-top"><span class="ci-name">Мария Ковалёва</span><span class="ci-time">10:24</span></span><span class="ci-prev">Смотри, что нашла…</span></span></li>
+                <li class="tg-chat-item"><span class="ava h2">АС</span><span class="ci-text"><span class="ci-top"><span class="ci-name">Артём Соколов</span><span class="ci-time">10:04</span></span><span class="ci-prev">Скинь правки сегодня вечером</span></span><span class="unread">1</span></li>
+                <li class="tg-chat-item"><span class="ava h3">DT</span><span class="ci-text"><span class="ci-top"><span class="ci-name">Dev Team</span><span class="ci-time">09:47</span></span><span class="ci-prev">Релиз собран, тесты зелёные</span></span></li>
+                <li class="tg-chat-item"><span class="ava h4">М</span><span class="ci-text"><span class="ci-top"><span class="ci-name">Мама</span><span class="ci-time">09:15</span></span><span class="ci-prev">Позвони вечером, пожалуйста</span></span></li>
+                <li class="tg-chat-item"><span class="ava h5">АВ</span><span class="ci-text"><span class="ci-top"><span class="ci-name">Аня Ветрова</span><span class="ci-time">Вчера</span></span><span class="ci-prev">Кстати, тумблер — огонь</span></span></li>
+                <li class="tg-chat-item"><span class="ava h6">SU</span><span class="ci-text"><span class="ci-top"><span class="ci-name">Сервис уведомлений</span><span class="ci-time">Вчера</span></span><span class="ci-prev">Код входа: 48-291</span></span></li>
+              </ul>
+              <div class="chats-skels" id="chatsSkels">
+                <div class="sk-chat"><span class="sk-ava skel"></span><span class="sk-l"><i class="skel"></i><i class="skel"></i></span></div>
+                <div class="sk-chat"><span class="sk-ava skel"></span><span class="sk-l"><i class="skel"></i><i class="skel"></i></span></div>
+                <div class="sk-chat"><span class="sk-ava skel"></span><span class="sk-l"><i class="skel"></i><i class="skel"></i></span></div>
+                <div class="sk-chat"><span class="sk-ava skel"></span><span class="sk-l"><i class="skel"></i><i class="skel"></i></span></div>
+                <div class="sk-chat"><span class="sk-ava skel"></span><span class="sk-l"><i class="skel"></i><i class="skel"></i></span></div>
+                <div class="sk-chat"><span class="sk-ava skel"></span><span class="sk-l"><i class="skel"></i><i class="skel"></i></span></div>
+                <div class="sk-chat"><span class="sk-ava skel"></span><span class="sk-l"><i class="skel"></i><i class="skel"></i></span></div>
+              </div>
+            </div>
+          </aside>
+          <div class="tg-main">
+            <div class="tg-peer">
+              <span class="ava h2">АС</span>
+              <div><div class="peer-name">Артём Соколов</div><div class="peer-st" id="peerStatus">не в сети</div></div>
+            </div>
+            <div class="tg-msgs" id="msgList">
+              <div class="msg in"><div class="bub">Привет! Ты видел новый макет?<span class="t">10:02</span></div></div>
+              <div class="msg out"><div class="bub">Ага, глянул. Выглядит отлично<span class="t">10:03</span></div></div>
+              <div class="msg in"><div class="bub">Скинь правки сегодня вечером<span class="t">10:04</span></div></div>
+              <div class="msg out"><div class="bub">Договорились<span class="t">10:05</span></div></div>
+              <div class="msg in incoming" id="msgIncoming"><div class="bub">Кстати, твой тумблер реально спас — у меня Telegram грузится без VPN<span class="t">сейчас</span></div></div>
+              <div class="typing-row" id="typingRow"><span class="tdots"><i></i><i></i><i></i></span>печатает…</div>
+            </div>
+            <div class="tg-overlay" id="tgOverlay" data-state="spin">
+              <div class="ov-view ov-spin"><span class="spin"></span><span class="ov-t" id="ovSpinTxt">Загрузка сообщений…</span></div>
+              <div class="ov-view ov-error">
+                <span class="ov-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8.5a15 15 0 0 1 4.2-2.9M9.5 4.6A15 15 0 0 1 22 8.5M5.5 12.5a10 10 0 0 1 3-1.9M12.8 10.7a10 10 0 0 1 5.7 1.8M9 16.4a5 5 0 0 1 6-.1"/><path d="M3 3l18 18"/></svg></span>
+                <span class="ov-t2">Не удалось подключиться</span>
+                <span class="ov-t3">Проверьте соединение — Telegram не отвечает</span>
+                <button class="btn btn-ghost btn-sm" id="retryBtn">Повторить</button>
+              </div>
+              <div class="ov-view ov-ok">
+                <span class="ov-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+                <span class="ov-t">Готово</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <p class="hero-note">// бесплатно и без регистрации · интерактивное демо — прямо в браузере</p>
+
+      <aside class="power-panel reveal" style="--d:.18s">
+        <div class="pp-head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6l7-3z"/></svg>
+          tgWsProxy · control
+        </div>
+        <div class="pp-status" id="ppStatus">Прокси выключен</div>
+        <div class="pp-hint" id="ppHint">Telegram не может достучаться до сервера</div>
+        <button class="big-toggle" id="bigToggle" role="switch" aria-checked="false" aria-label="Включить прокси">
+          <span class="bt-track">
+            <span class="bt-txt t-off">OFF</span><span class="bt-txt t-on">ON</span>
+            <span class="bt-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v8"/><path d="M6.3 6.3a8 8 0 1 0 11.4 0"/></svg></span>
+          </span>
+        </button>
+        <div class="pp-foot">клик по тумблеру — включить / выключить</div>
+        <div class="pp-log" id="ppLog"></div>
+      </aside>
     </div>
 
-    <div class="report-card" id="heroCard" aria-hidden="true">
-      <div class="rc-head">
-        <span class="dots"><i></i><i></i><i></i></span>
-        ocean · отчёт
-        <span class="pct"><span id="heroPct">0</span>%</span>
+    <!-- ─── ЖИВЫЕ ДЕМО: здесь же, в самом верху ─── -->
+    <div class="try-zone">
+      <div class="sec-head reveal">
+        <span class="sec-tag">// попробуй прямо здесь</span>
+        <h2>Живые демо — не отходя от верха страницы</h2>
+        <p>Это интерактивная модель на чистом JS: всё можно потрогать прямо сейчас, ничего не отправляется на сервер.</p>
       </div>
-      <div class="rc-cols">
-        <div class="rc-col">
-          <div class="file">sort_copy.py</div>
-          <div class="rc-line">def bubble_sort(nums):</div>
-          <div class="rc-line">    n = len(nums)</div>
-          <div class="rc-line">    for i in range(n):</div>
-          <div class="rc-line">        swapped = False</div>
-          <div class="rc-line">        for j in range(...):</div>
-          <div class="rc-line">    return nums</div>
-        </div>
-        <div class="rc-col">
-          <div class="file">sorting.py</div>
-          <div class="rc-line eq">def bubble_sort(arr):</div>
-          <div class="rc-line eq">    n = len(arr)</div>
-          <div class="rc-line eq">    for i in range(n):</div>
-          <div class="rc-line">        # особый случай</div>
-          <div class="rc-line eq">        for j in range(...):</div>
-          <div class="rc-line eq">    return arr</div>
-        </div>
+
+      <div class="tabs reveal" role="tablist">
+        <button class="tab active" data-tab="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5z"/></svg>Побегать по чатам</button>
+        <button class="tab" data-tab="2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>Отправить сообщение</button>
+        <button class="tab" data-tab="3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M4 18l5-5 4 4 3-3 4 4"/></svg>Медиа и статусы</button>
       </div>
-      <div class="rc-foot">
-        <span>совпадение строк</span>
-        <span class="rc-bar"><i id="heroBar"></i></span>
-        <span class="mono" style="color:var(--accent)">высокое</span>
+
+      <div class="reveal" style="--d:.1s">
+        <!-- ДЕМО 1 -->
+        <div class="pane active" data-pane="1">
+          <div class="tg-window mini">
+            <div class="tg-titlebar"><span class="tb-dots"><i></i><i></i><i></i></span><span class="tb-name">Telegram · демо 1/3</span><span class="tb-live">живое</span></div>
+            <div class="tg-body">
+              <aside class="tg-side"><ul class="tg-chats" id="d1List"></ul></aside>
+              <div class="tg-main">
+                <div class="tg-peer">
+                  <span class="ava h1" id="d1Ava">МК</span>
+                  <div><div class="peer-name" id="d1Name">Мария Ковалёва</div><div class="peer-st on" id="d1St">в сети</div></div>
+                </div>
+                <div class="tg-msgs d1-msgs" id="d1Msgs"></div>
+                <div class="tg-inputbar"><span class="ib-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12l6-6a4 4 0 0 1 6 6l-8 8a5.5 5.5 0 0 1-8-8l8-8"/></svg></span><span style="color:var(--dim);font-size:13px">Сообщение…</span></div>
+              </div>
+            </div>
+          </div>
+          <p class="demo-tip">Кликай по чатам слева — переписка «перелистнётся», превью и время обновятся, скролл уйдёт вниз.</p>
+        </div>
+
+        <!-- ДЕМО 2 -->
+        <div class="pane" data-pane="2">
+          <div class="tg-window mini">
+            <div class="tg-titlebar"><span class="tb-dots"><i></i><i></i><i></i></span><span class="tb-name">Telegram · демо 2/3 — Артём Соколов</span><span class="tb-live">живое</span></div>
+            <div class="tg-body">
+              <div class="tg-main">
+                <div class="tg-peer">
+                  <span class="ava h2">АС</span>
+                  <div><div class="peer-name">Артём Соколов</div><div class="peer-st on">в сети</div></div>
+                </div>
+                <div class="tg-msgs" id="d2Msgs">
+                  <div class="msg in show"><div class="bub">Привет! Ты уже пробовал новый тумблер?<span class="t">11:02</span></div></div>
+                  <div class="msg out show"><div class="bub">Только что. Работает идеально<span class="t">11:04</span></div></div>
+                  <div class="typing-row" id="d2Typing"><span class="tdots"><i></i><i></i><i></i></span>печатает…</div>
+                </div>
+                <div class="chips">
+                  <button class="chip" data-text="Скинь, пожалуйста, ссылку">Скинь, пожалуйста, ссылку</button>
+                  <button class="chip" data-text="Во сколько созвон?">Во сколько созвон?</button>
+                  <button class="chip" data-text="Спасибо, выручил!">Спасибо, выручил!</button>
+                </div>
+                <div class="tg-inputbar">
+                  <span class="ib-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12l6-6a4 4 0 0 1 6 6l-8 8a5.5 5.5 0 0 1-8-8l8-8"/></svg></span>
+                  <input id="d2Input" type="text" maxlength="120" placeholder="Напиши сообщение и нажми Enter…" autocomplete="off">
+                  <button class="send-btn" id="d2Send" aria-label="Отправить"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="demo-tip">Отправь своё сообщение или выбери подсказку: часы → одна галочка → две → «прочитано», затем собеседник ответит.</p>
+        </div>
+
+        <!-- ДЕМО 3 -->
+        <div class="pane" data-pane="3">
+          <div class="tg-window mini">
+            <div class="tg-titlebar"><span class="tb-dots"><i></i><i></i><i></i></span><span class="tb-name">Telegram · демо 3/3 — Аня Ветрова</span><span class="tb-live">живое</span></div>
+            <div class="tg-body">
+              <div class="tg-main">
+                <div class="tg-peer">
+                  <span class="ava h5">АВ</span>
+                  <div><div class="peer-name">Аня Ветрова</div><div class="peer-st" id="d3Status">не в сети</div></div>
+                </div>
+                <div class="tg-msgs" id="d3Msgs">
+                  <div class="msg in show"><div class="bub">Скинь кадр с референсом первого экрана<span class="t">12:30</span></div></div>
+                  <div class="msg out show">
+                    <div class="bub media-bub" id="d3Bub">
+                      <div class="media">
+                        <div class="media-art"></div>
+                        <div class="media-hint">фото не загружено</div>
+                        <div class="media-load">
+                          <div class="pbar"><i id="d3Bar"></i></div>
+                          <div class="prow"><span id="d3Pct">0%</span><span>reference-screen.png</span></div>
+                          <div class="perr" id="d3Err">Загрузка застряла: соединение не проходит</div>
+                        </div>
+                      </div>
+                      <div class="cap">Референс — тёмная тема, неоновые акценты<span class="t">12:31</span></div>
+                    </div>
+                  </div>
+                  <div class="msg in" id="d3Reply"><div class="bub">О, вот это то, что нужно. Спасибо!<span class="t">сейчас</span></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d3-controls">
+            <button class="mini-switch" id="d3Toggle" role="switch" aria-checked="false">
+              <span class="ms-track"><span class="ms-knob"></span></span><span id="d3Lbl">Прокси: выкл</span>
+            </button>
+            <button class="btn btn-ghost btn-sm" id="d3SendBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>
+              Отправить фото
+            </button>
+          </div>
+          <p class="demo-tip">С выключенным прокси загрузка встанет на ~15%. Включи тумблер прямо во время загрузки — и файл «прорвётся» до 100%.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ======== КАК ЭТО РАБОТАЕТ ======== -->
-<section id="how">
-  <div class="wrap">
+<!-- ═══════════ ВОЗМОЖНОСТИ ═══════════ -->
+<section id="features">
+  <div class="container">
     <div class="sec-head reveal">
-      <p class="eyebrow"><span>01 /</span> Как это работает</p>
-      <h2>От папки с кодом до готового вывода — четыре шага</h2>
+      <span class="sec-tag">// возможности</span>
+      <h2>Почему это просто работает</h2>
+      <p>Никаких конфигов, портов и ключей. Утилита делает одну вещь — и делает её незаметно.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat reveal"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v8"/><path d="M6.3 6.3a8 8 0 1 0 11.4 0"/></svg></div><h3>Включение в один клик</h3><p>Один тумблер в интерфейсе — туннель поднимается за пару секунд. Столько же нужно, чтобы его выключить.</p><div class="f-note">toggle → tunnel up: ~2s</div></div>
+      <div class="feat f-blue reveal" style="--d:.06s"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h8M18 8h2M4 16h4M12 16h8"/><circle cx="15" cy="8" r="2.2"/><circle cx="9.5" cy="16" r="2.2"/></svg></div><h3>Работает без настроек</h3><p>Не нужно вводить адрес сервера, порт или ключи. Установил, запустил, переключил — всё.</p><div class="f-note">config files: 0</div></div>
+      <div class="feat f-mint reveal" style="--d:.12s"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="5" r="2.2"/><circle cx="6" cy="19" r="2.2"/><circle cx="18" cy="12" r="2.2"/><path d="M6 7.2v9.6"/><path d="M8 5h4a4 4 0 0 1 4 4v1"/><path d="M8 19h4a4 4 0 0 0 4-4v-1"/></svg></div><h3>Не ломает другие программы</h3><p>В туннель уходит только трафик Telegram. Браузер, игры и остальные приложения даже не заметят, что прокси включён.</p><div class="f-note">маршрут: только telegram</div></div>
+      <div class="feat f-coral reveal"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5"/><path d="M16 7l5 5-5 5"/></svg></div><h3>Открытый код, навсегда бесплатно</h3><p>Исходники лежат в открытом репозитории — любой может проверить, что именно делает программа.</p><div class="f-note">license: MIT · price: 0 ₽</div></div>
+      <div class="feat f-blue reveal" style="--d:.06s"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a8 8 0 1 1 16 0"/><path d="M12 14l4-4"/><circle cx="12" cy="14" r="1.6"/></svg></div><h3>Низкая задержка</h3><p>WebSocket-туннель почти не добавляет пинга — сообщения и медиа грузятся так, будто блокировки нет.</p><div class="ping" aria-hidden="true"><i style="--h:.3;--d:0s"></i><i style="--h:.55;--d:.1s"></i><i style="--h:.4;--d:.2s"></i><i style="--h:.7;--d:.3s"></i><i style="--h:.5;--d:.4s"></i><i style="--h:.85;--d:.5s"></i><i style="--h:.6;--d:.6s"></i><i style="--h:.45;--d:.7s"></i><i style="--h:.75;--d:.8s"></i><i style="--h:.5;--d:.9s"></i><i style="--h:.65;--d:1s"></i><i style="--h:.4;--d:1.1s"></i></div></div>
+      <div class="feat f-violet reveal" style="--d:.12s"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg></div><h3>Поддержка всех версий Telegram</h3><p>Официальный Telegram Desktop, Portable-сборка, версия из Microsoft Store — тумблер работает с любой.</p><div class="f-note">desktop · portable · store</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ КАК ЭТО РАБОТАЕТ ═══════════ -->
+<section id="how">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="sec-tag">// как это работает</span>
+      <h2>Три шага до работающего Telegram</h2>
     </div>
     <div class="steps">
       <div class="step reveal">
-        <div class="step-num">01</div>
-        <div>
-          <h3>Загрузка</h3>
-          <p>Перетащите файлы, выберите папку или подключите репозиторий. Ocean сам распознаёт язык по расширению и строит карту проекта.</p>
-          <span class="step-tag">drag-and-drop · Git · архивы</span>
-        </div>
+        <div class="s-num">ШАГ 01</div>
+        <div class="s-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg></div>
+        <h3>Скачай и установи</h3>
+        <p>Инсталлятор на 8 МБ без «галочек-партнёров» и без прав администратора. Занимает меньше минуты.</p>
       </div>
-      <div class="step reveal">
-        <div class="step-num">02</div>
-        <div>
-          <h3>Анализ</h3>
-          <p>Код нормализуется (пробелы, регистр, имена переменных) и разбивается на «отпечатки». Каждая пара файлов сравнивается по этим отпечаткам — переименования и перестановки не спасают.</p>
-          <span class="step-tag">шинглы · winnowing · AST</span>
-        </div>
+      <div class="step reveal" style="--d:.1s">
+        <div class="s-num">ШАГ 02</div>
+        <div class="s-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v8"/><path d="M6.3 6.3a8 8 0 1 0 11.4 0"/></svg></div>
+        <h3>Переключи тумблер</h3>
+        <p>Программа сама поднимает WebSocket-туннель и перенаправляет в него только трафик Telegram. Остальной интернет идёт как шёл.</p>
       </div>
-      <div class="step reveal">
-        <div class="step-num">03</div>
-        <div>
-          <h3>Отчёт</h3>
-          <p>Таблица пар с процентом совпадения, отсортированная по убыванию. Рядом — двухпанельное сравнение с подсветкой одинаковых строк, как в diff.</p>
-          <span class="step-tag">PDF · HTML · Markdown</span>
-        </div>
-      </div>
-      <div class="step reveal">
-        <div class="step-num">04</div>
-        <div>
-          <h3>Выводы</h3>
-          <p>Фильтры по порогу совпадения, история проверок и выгрузка для дисциплинарной комиссии или код-ревью. Решение остаётся за человеком — Ocean лишь показывает факты.</p>
-          <span class="step-tag">пороги · история · экспорт</span>
-        </div>
+      <div class="step reveal" style="--d:.2s">
+        <div class="s-num">ШАГ 03</div>
+        <div class="s-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg></div>
+        <h3>Пользуйся</h3>
+        <p>Telegram грузится как обычно. Тумблер можно щёлкать хоть десять раз в день — ничего перенастраивать не нужно.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ======== ВОЗМОЖНОСТИ ======== -->
-<section id="features" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <p class="eyebrow"><span>02 /</span> Возможности</p>
-      <h2>Всё, чтобы сравнение кода было быстрым и доказательным</h2>
-    </div>
-    <div class="bento">
-      <div class="cell b7 reveal">
-        <span class="cell-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg></span>
-        <h3>Подсветка одинаковых фрагментов</h3>
-        <p>Двухпанельное сравнение с выравниванием по строкам: совпадения выделены бирюзовым, уникальный код — тёплым. Видно сразу, что скопировано, а что написано заново.</p>
-        <div class="cell-vis rc-cols" style="border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:11.5px">
-          <div class="rc-col">
-            <div class="rc-line uniq">if user_input == secret:</div>
-            <div class="rc-line eq">    print("access denied")</div>
-            <div class="rc-line eq">    return False</div>
-          </div>
-          <div class="rc-col">
-            <div class="rc-line">if answer == key:</div>
-            <div class="rc-line eq">    print("access denied")</div>
-            <div class="rc-line eq">    return False</div>
-          </div>
-        </div>
-      </div>
-      <div class="cell b5 reveal">
-        <span class="cell-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M12 8v4l2.5 2.5"/></svg></span>
-        <h3>Процент совпадения</h3>
-        <p>Для каждой пары файлов — точная метрика по общим фрагментам с настраиваемым порогом «подозрительности».</p>
-        <div class="cell-vis mini-bars">
-          <div class="mini-bar"><span>sort_copy.py ↔ sorting.py</span><span class="track"><i data-w="92"></i></span><b>92%</b></div>
-          <div class="mini-bar"><span>helpers.js ↔ utils.js</span><span class="track"><i data-w="61"></i></span><b>61%</b></div>
-          <div class="mini-bar"><span>main.go ↔ utils.js</span><span class="track"><i data-w="14"></i></span><b>14%</b></div>
-        </div>
-      </div>
-      <div class="cell b4 reveal">
-        <span class="cell-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13 4l-2 16"/></svg></span>
-        <h3>25+ языков</h3>
-        <p>Python, JavaScript, C++, Java, Go, Ruby, Rust и другие. Нормализация AST игнорирует переименования переменных.</p>
-        <div class="cell-vis chips">
-          <span class="chip">Python</span><span class="chip">JS / TS</span><span class="chip">C++</span><span class="chip">Java</span><span class="chip">Go</span><span class="chip">Rust</span><span class="chip more">+19</span>
-        </div>
-      </div>
-      <div class="cell b4 reveal">
-        <span class="cell-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></svg></span>
-        <h3>Сравнение папок</h3>
-        <p>Загрузите две директории — Ocean сопоставит структуры и найдёт файлы-близнецы даже с другими именами.</p>
-        <div class="cell-vis mini-tree">
-          <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></svg>student_a/ <span class="pct hi" style="margin-left:auto">↔ 94%</span></div>
-          <div class="row" style="padding-left:20px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 3v5h5M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/></svg>sort.py <span class="pct hi">96%</span></div>
-          <div class="row" style="padding-left:20px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 3v5h5M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/></svg>utils.py <span class="pct mid">57%</span></div>
-        </div>
-      </div>
-      <div class="cell b4 reveal">
-        <span class="cell-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M6 8.5V14a4 4 0 0 0 4 4h5.5"/></svg></span>
-        <h3>Сравнение версий</h3>
-        <p>Сколько кода переехало между релизами и коммитами — ревьюер видит реальный объём изменений.</p>
-        <div class="cell-vis ver-flow">
-          <span class="v">v1.4</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16m0 0-6-6m6 6-6 6"/></svg>
-          <span class="v new">v1.5</span>
-          <span style="color:var(--dim);font-size:11.5px">+38 строк совпали</span>
-        </div>
-      </div>
-      <div class="cell b7 reveal">
-        <span class="cell-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="8" r="2.5"/><path d="M6 8.5v7M18 10.5c0 4-4 3.5-8 5"/></svg></span>
-        <h3>Интеграция с Git и CI</h3>
-        <p>Ocean встраивается в пайплайн: после каждого push проверяются изменённые файлы, а при совпадении выше порога пайплайн падает со ссылкой на отчёт.</p>
-        <div class="cell-vis pipeline">
-          <span class="stage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M6 8.5V14a4 4 0 0 0 4 4h5.5"/></svg>push #4821</span>
-          <span class="arr">→</span>
-          <span class="stage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>ocean scan</span>
-          <span class="arr">→</span>
-          <span class="stage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/></svg>ocean-report.pdf</span>
-        </div>
-      </div>
-      <div class="cell b5 reveal">
-        <span class="cell-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M9 13h6M9 17h6"/></svg></span>
-        <h3>Экспорт в PDF</h3>
-        <p>Готовый отчёт с датой, списком пар и подсвеченными фрагментами — прилагается к материалам проверки одной кнопкой.</p>
-        <div class="cell-vis doc-line">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/></svg>
-          ocean-report-2024-05-17.pdf · 12 пар · 2,3 МБ
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ======== ДЕМО ======== -->
-<section id="demo">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <p class="eyebrow"><span>03 /</span> Демо</p>
-      <h2>Проверьте свои файлы прямо сейчас</h2>
-      <p class="sec-sub">Анализ выполняется локально в вашем браузере: файлы никуда не отправляются. Алгоритм демо упрощён (сравнение по нормализованным строкам), в настольной версии — AST-отпечатки.</p>
-    </div>
-
-    <div class="demo-grid">
-      <!-- левая колонка: загрузка -->
-      <div class="demo-panel reveal">
-        <div class="demo-panel-head">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0L7 9m5-5 5 5"/><path d="M4 17v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-2"/></svg>
-          Файлы
-        </div>
-        <div class="demo-panel-body">
-          <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Загрузить файлы: перетащите или нажмите для выбора">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0L7 9m5-5 5 5"/><path d="M4 17v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-2"/></svg>
-            <div class="dz-t">Перетащите файлы или папку сюда</div>
-            <div class="dz-s">или выберите на диске · максимум 10 файлов, до 2 МБ каждый</div>
-            <div class="dz-actions">
-              <button class="btn btn-ghost btn-sm" id="pickFiles" type="button">Выбрать файлы</button>
-              <button class="btn btn-ghost btn-sm" id="pickFolder" type="button">Выбрать папку</button>
-              <button class="btn btn-primary btn-sm" id="loadSamples" type="button">Загрузить примеры</button>
-            </div>
-          </div>
-          <input type="file" id="fileInput" multiple hidden>
-          <input type="file" id="folderInput" webkitdirectory multiple hidden>
-
-          <div class="file-list" id="fileList" aria-live="polite"></div>
-
-          <div class="analyze-row">
-            <button class="btn btn-primary" id="analyzeBtn" disabled>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-              Проверить
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- правая колонка: результаты -->
-      <div class="demo-panel reveal">
-        <div class="demo-panel-head">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M9 13h6M9 17h4"/></svg>
-          Отчёт
-        </div>
-        <div class="progress-block" id="progressBlock">
-          <div class="pb-top"><span class="stage" id="pbStage">Подготовка…</span><span class="num" id="pbNum">0%</span></div>
-          <div class="pb-track"><i id="pbFill"></i></div>
-        </div>
-        <div class="result-empty" id="resultEmpty">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></svg>
-          Добавьте минимум два файла и нажмите «Проверить» — здесь появится таблица пар с процентом совпадения.
-        </div>
-        <div class="pairs-wrap" id="pairsWrap">
-          <table class="pairs-table" aria-label="Таблица совпадений">
-            <thead><tr><th>Пара файлов</th><th>Совпадение</th><th>Итог</th><th></th></tr></thead>
-            <tbody id="pairsBody"></tbody>
-          </table>
-          <div class="pairs-foot" id="pairsFoot"></div>
-        </div>
-        <div class="diff" id="diffPanel"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ======== СКАЧАТЬ ======== -->
+<!-- ═══════════ СКАЧАТЬ ═══════════ -->
 <section id="download">
-  <div class="wrap">
-    <div class="sec-head reveal" style="text-align:center">
-      <p class="eyebrow" style="width:max-content;margin-left:auto;margin-right:auto"><span>04 /</span> Скачать</p>
-      <h2 style="margin-left:auto;margin-right:auto">Заберите Ocean себе</h2>
-      <p class="sec-sub" style="margin-left:auto;margin-right:auto">Бесплатно и целиком — для учёбы, работы и коммерческих проектов. Без подписок, тарифов и регистрации.</p>
-    </div>
-    <div class="plan reveal" style="max-width:640px;margin:0 auto;text-align:center;align-items:center;padding:44px 32px">
-      <span class="cell-icon" style="width:58px;height:58px;border-radius:16px">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:28px;height:28px"><path d="M12 4v11m0 0 4.5-4.5M12 15l-4.5-4.5"/><path d="M4 19h16"/></svg>
-      </span>
-      <h3 style="font-family:var(--fd);font-weight:600;font-size:clamp(22px,3vw,28px);margin-top:12px">Ocean для Windows, macOS и Linux</h3>
-      <p style="color:var(--muted);font-size:15px;max-width:430px">Полная версия без ограничений: все языки, сравнение папок, экспорт отчётов и интеграции — уже включены.</p>
-      <a href="#download" class="btn btn-primary js-download" style="margin-top:14px;padding:16px 30px;font-size:16px">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0 4.5-4.5M12 15l-4.5-4.5"/><path d="M4 19h16"/></svg>
-        Скачать Ocean
-      </a>
-      <p class="mono" style="font-size:12px;color:var(--dim);margin-top:10px">// последняя версия · установка занимает пару минут</p>
-    </div>
-  </div>
-</section>
-
-<!-- ======== СТАТИСТИКА ======== -->
-<section class="stats" style="padding:0">
-  <div class="wrap">
-    <div class="stats-row">
-      <div class="stat reveal"><div class="num"><span class="counter" data-target="1284019">0</span></div><div class="lbl">файлов проверено</div></div>
-      <div class="stat reveal"><div class="num"><span class="counter" data-target="42760000">0</span></div><div class="lbl">строк кода сравнено</div></div>
-      <div class="stat reveal"><div class="num"><span class="counter" data-target="31">0</span><em>+</em></div><div class="lbl">поддерживаемых языков</div></div>
-      <div class="stat reveal"><div class="num"><span class="counter" data-target="9480">0</span></div><div class="lbl">преподавателей и команд</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ======== ОТЗЫВЫ ======== -->
-<section id="reviews" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
-  <div class="wrap">
+  <div class="container">
     <div class="sec-head reveal">
-      <p class="eyebrow"><span>05 /</span> Отзывы</p>
-      <h2>Нам доверяют проверку самого ценного</h2>
+      <span class="sec-tag">// скачать</span>
+      <h2>Забери бесплатно</h2>
     </div>
-    <div class="reviews-grid">
-      <div class="review big reveal">
-        <p class="q">«Раньше проверка курсовых на плагиат занимала вечера: ручной поиск, глаза в мониторе, споры со студентами. Теперь я загружаю папку группы, и через минуту у меня таблица с процентами и подсвеченными фрагментами. С спорами стало проще — факты на экране».</p>
-        <div class="who">
-          <span class="ava" aria-hidden="true">МК</span>
-          <div><b>Марина Ковалёва</b><span>старший преподаватель, программная инженерия</span></div>
+    <div class="dl-card reveal">
+      <div>
+        <div class="dl-file">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8"/><path d="M12 16v4"/></svg>
+          <div><div class="fn">tgWsProxy-setup.exe</div><div class="fv">последняя стабильная сборка</div></div>
         </div>
+        <dl class="meta">
+          <dt>Версия</dt><dd>1.4.2</dd>
+          <dt>Выпущена</dt><dd>12 июня 2025</dd>
+          <dt>Размер</dt><dd>8,4 МБ</dd>
+          <dt>ОС</dt><dd>Windows 7 / 8 / 10 / 11 · x64</dd>
+        </dl>
+        <div class="sha">SHA-256: 3f9c14d2…a41b (полная сумма — на странице релиза)</div>
       </div>
-      <div class="review-col">
-        <div class="review reveal">
-          <p class="q">«Подключили Ocean к CI — легаси-копипаст перестал попадать в main. Совпадение выше 70% ломает пайплайн, ревьюер получает отчёт раньше, чем успевает открыть diff».</p>
-          <div class="who">
-            <span class="ava" aria-hidden="true">ДЛ</span>
-            <div><b>Дмитрий Ларин</b><span>тимлид backend-команды</span></div>
-          </div>
-        </div>
-        <div class="review reveal">
-          <p class="q">«Сравнение версий показало, что „рефакторинг“ в нашем форке — это 87% скопированных строк. Экономия пары спринтов, честно говоря».</p>
-          <div class="who">
-            <span class="ava" aria-hidden="true">АС</span>
-            <div><b>Анна Соколова</b><span>технический директор</span></div>
-          </div>
-        </div>
+      <div class="dl-side">
+        <a class="btn btn-primary btn-lg dl" href="https://github.com/OceanPlay2/tg-proxy/raw/main/TgWsProxy_windows.exe" style="justify-content:center">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>
+          Скачать для Windows
+        </a>
+        <ul class="bullets">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Бесплатно • Без рекламы • Без телеметрии</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Прямая ссылка — файл начнёт скачиваться сразу</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Исходный код открыт на GitHub</li>
+        </ul>
       </div>
-    </div>
-    <div class="partners reveal">
-      <span class="p-lbl">Используют:</span>
-      <span>НИУ Политех</span><span>Академия Кода</span><span>DevHouse</span><span>ЛигаТест</span><span>Стартхаб</span><span>Кодовая Гавань</span>
     </div>
   </div>
 </section>
 
-<!-- ======== FAQ + КОНТАКТЫ ======== -->
-<section id="contacts">
-  <div class="wrap">
-    <div class="faq-grid">
-      <div class="contact-side reveal">
-        <p class="eyebrow"><span>06 /</span> FAQ</p>
-        <h2 style="font-size:clamp(22px,3vw,32px)">Частые вопросы</h2>
-        <div style="margin-top:28px" id="faqList">
-          <div class="faq-item open">
-            <button class="faq-q" aria-expanded="true">Ocean правда полностью бесплатный?
-              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-            </button>
-            <div class="faq-a"><div><p>Да: полная версия без ограничений — для учёбы, работы и коммерческого использования. Забирайте сборку по кнопке «Скачать», а если Ocean оказался полезен — расскажите о нём коллегам.</p></div></div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-q" aria-expanded="false">Как Ocean отличает заимствование от случайного совпадения?
-              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-            </button>
-            <div class="faq-a"><div><p>Короткие совпадения (приветствие мира, типовые циклы) естественны. Ocean измеряет совпадение непрерывными фрагментами: три и более одинаковых строки подряд — это уже «отпечаток», а единичные общие строки в процент почти не дают. Порог подозрительности настраивается.</p></div></div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-q" aria-expanded="false">Какие языки поддерживаются?
-              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-            </button>
-            <div class="faq-a"><div><p>Более 25 языков, включая Python, JavaScript/TypeScript, C/C++, Java, C#, Go, Rust, Ruby, PHP, Kotlin и Swift. Для популярных языков работает AST-нормализация — переименование переменных и перестановка функций не снижают процент.</p></div></div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-q" aria-expanded="false">Куда отправляются мои файлы?
-              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-            </button>
-            <div class="faq-a"><div><p>В демо на этой странице анализ идёт полностью в вашем браузере — файлы не покидают компьютер. В настольной версии всё считается локально. Если используется серверный режим, файлы шифруются при передаче и хранении, а по запросу удаляются вместе с отчётами.</p></div></div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-q" aria-expanded="false">Можно ли сравнить две версии одного проекта?
-              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-            </button>
-            <div class="faq-a"><div><p>Да. Загрузите две папки или два коммита — Ocean сопоставит структуры, покажет, какие файлы совпадают с точностью до переименования, и оценит, сколько кода «переехало» между версиями.</p></div></div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-q" aria-expanded="false">Есть ли интеграция с LMS и CI?
-              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-            </button>
-            <div class="faq-a"><div><p>Плагины для популярных LMS, интеграции с CI-системами, REST API и вебхуки доступны в настольной версии из коробки. Проверка запускается автоматически, отчёт прикладывается к пайплайну или к заданию в системе обучения.</p></div></div>
-          </div>
-        </div>
+<!-- ═══════════ FAQ ═══════════ -->
+<section id="faq">
+  <div class="container">
+    <div class="sec-head reveal" style="margin-left:auto;margin-right:auto;text-align:center;max-width:560px">
+      <span class="sec-tag">// faq</span>
+      <h2>Частые вопросы</h2>
+    </div>
+    <div class="faq reveal">
+      <div class="qa open">
+        <button class="q">Нужен ли VPN вместе с tgWsProxy?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="a"><div class="a-in"><p>Нет. Утилита сама открывает туннель только для трафика Telegram. VPN можно оставить, но чаще всего достаточно одного тумблера — скорости при этом выше, чем через полноценный VPN.</p></div></div>
       </div>
-
-      <div class="reveal">
-        <div class="contact-card">
-          <div class="demo-panel-head" style="padding:0 0 16px">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/></svg>
-            Оставить заявку
-          </div>
-          <form id="contactForm" novalidate>
-            <div class="form-row">
-              <div class="field">
-                <label for="fName">Имя</label>
-                <input id="fName" name="name" type="text" autocomplete="name" placeholder="Мария Петрова">
-                <span class="err-msg">Укажите имя</span>
-              </div>
-              <div class="field">
-                <label for="fEmail">Email</label>
-                <input id="fEmail" name="email" type="email" autocomplete="email" placeholder="you@university.ru">
-                <span class="err-msg">Похоже, в адресе опечатка</span>
-              </div>
-            </div>
-            <div class="field">
-              <label for="fRole">Кто вы</label>
-              <select id="fRole" name="role">
-                <option>Преподаватель</option>
-                <option>Ревьюер / тимлид</option>
-                <option>Студент</option>
-                <option>Другое</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="fPlan">Тема обращения</label>
-              <select id="fPlan" name="topic">
-                <option>Скачать / установить</option>
-                <option>Лицензия и использование</option>
-                <option>Интеграция и API</option>
-                <option>Что-то ещё</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="fMsg">Сообщение</label>
-              <textarea id="fMsg" name="message" placeholder="Расскажите о задаче: сколько студентов/репозиториев нужно проверять…"></textarea>
-            </div>
-            <button class="btn btn-primary" type="submit" id="submitBtn" style="width:100%">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/></svg>
-              Отправить заявку
-            </button>
-          </form>
-        </div>
-        <div style="margin-top:20px;padding:0 6px">
-          <div class="contact-links">
-            <a href="mailto:hello@ocean-code.ru"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>hello@ocean-code.ru</a>
-            <a href="#demo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Ответим в течение одного рабочего дня</a>
-          </div>
-        </div>
+      <div class="qa">
+        <button class="q">Это безопасно?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="a"><div class="a-in"><p>Да. Соединение идёт через ваш собственный WebSocket-канал: программа перенаправляет трафик, но не расшифровывает и не хранит содержимое переписки. Исходный код открыт — всё можно проверить самостоятельно.</p></div></div>
+      </div>
+      <div class="qa">
+        <button class="q">Как отключить прокси?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="a"><div class="a-in"><p>Один клик по тумблеру в интерфейсе — туннель закрывается мгновенно. В настройках можно также снять программу с автозагрузки, тогда она вообще не будет запускаться вместе с системой.</p></div></div>
+      </div>
+      <div class="qa">
+        <button class="q">Какие системные требования?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="a"><div class="a-in"><p>Windows 7, 8, 10 или 11 (64-bit) и около 40 МБ на диске. Внешних зависимостей нет, установка не требует прав администратора.</p></div></div>
+      </div>
+      <div class="qa">
+        <button class="q">С какими версиями Telegram это работает?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="a"><div class="a-in"><p>С любыми десктопными: официальный Telegram Desktop, Portable-сборка и версия из Microsoft Store. На телефонах блокировки обычно не действуют, поэтому мобильные версии не понадобятся.</p></div></div>
       </div>
     </div>
   </div>
 </section>
 </main>
 
-<!-- ======== ПОДВАЛ ======== -->
+<!-- ═══════════ ПОДВАЛ ═══════════ -->
 <footer>
-  <div class="wrap">
+  <div class="container">
     <div class="foot-grid">
       <div class="foot-brand">
-        <a class="logo" href="#top">
-          <span class="logo-mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#37e5c8" stroke-width="2" stroke-linecap="round"><path d="M3 14c2.5-4.5 5-4.5 7.5 0s5 4.5 7.5 0"/><path d="M3 9c2.5-4.5 5-4.5 7.5 0s5 4.5 7.5 0" opacity=".45"/></svg>
-          </span>
-          Ocean
+        <a href="#top" class="logo">
+          <svg class="logo-ic" viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="14" fill="#0d1420" stroke="rgba(255,255,255,.12)"/><path d="M12 42 L26 28 L35 37 L52 18" stroke="#5aa7ff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="52" cy="18" r="5" fill="#ffc24b"/></svg>
+          <span class="glitch" data-text="tgWsProxy">tgWsProxy</span>
         </a>
-        <p>Поиск дубликатов, плагиата и заимствований в исходном коде. Факты вместо споров.</p>
+        <p>Бесплатная утилита, которая возвращает Telegram на ПК одним тумблером. Открытый код, без рекламы.</p>
       </div>
-      <div class="foot-col">
-        <h4>Продукт</h4>
-        <a href="#features">Возможности</a>
+      <div class="f-col">
+        <h4>Разделы</h4>
         <a href="#demo">Демо</a>
-        <a href="#download">Скачать</a>
+        <a href="#how">Как работает</a>
+        <a href="#features">Возможности</a>
+        <a href="#faq">FAQ</a>
       </div>
-      <div class="foot-col">
-        <h4>Ресурсы</h4>
-        <a href="#how">Как это работает</a>
-        <a href="#reviews">Отзывы</a>
-        <a href="#contacts">FAQ и контакты</a>
-      </div>
-      <div class="foot-col">
-        <h4>Контакты</h4>
-        <a href="mailto:hello@ocean-code.ru">hello@ocean-code.ru</a>
-        <a href="mailto:support@ocean-code.ru">support@ocean-code.ru</a>
+      <div class="f-col">
+        <h4>Проект</h4>
+        <a class="dl" href="https://github.com/OceanPlay2/tg-proxy/raw/main/TgWsProxy_windows.exe">Скачать для Windows</a>
+        <a href="https://github.com/tgWsProxy/tgWsProxy" rel="noopener" target="_blank">GitHub (исходный код)</a>
+        <a href="https://t.me/tgwsproxy" rel="noopener" target="_blank">Телеграм-канал обновлений</a>
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2024 Ocean. Все права защищены.</span>
-      <span class="mono">// сделано с любовью к чистому коду</span>
+      <span>© <span id="year">2025</span> tgWsProxy. Открытый код.</span>
+      <span>Не является официальным продуктом Telegram.</span>
     </div>
   </div>
 </footer>
 
-<div class="toaster" id="toaster" aria-live="polite"></div>
-
 <script>
-(function(){
-"use strict";
-var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+/* ═══ ПРЯМАЯ ССЫЛКА НА СКАЧИВАНИЕ — поменяйте её ЗДЕСЬ (один раз) ═══ */
+const DL_LINK = "https://github.com/OceanPlay2/tg-proxy/raw/main/TgWsProxy_windows.exe";
 
-/* ссылка на скачивание: задаётся в window.OCEAN_DOWNLOAD_URL (см. <head>);
-   пока она пуста — кнопки ведут к блоку «Скачать» на странице */
- $$("a.js-download").forEach(function(a){
-  var u = window.OCEAN_DOWNLOAD_URL || "";
-  if(u){ a.href = u; a.target = "_blank"; a.rel = "noopener"; }
-});
+/* ── утилиты ── */
+const $  = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+const esc = s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-/* ================= утилиты ================= */
-function $(s,c){return (c||document).querySelector(s)}
-function $$(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))}
-function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
-function fmt(n){return new Intl.NumberFormat("ru-RU").format(Math.round(n))}
-function toast(msg,warn){
-  var box=$("#toaster");
-  var t=document.createElement("div");
-  t.className="toast"+(warn?" warn":"");
-  t.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+
-    (warn?'<path d="M12 9v4m0 4h.01"/><path d="M12 3 2.5 20h19z"/>':'<path d="m5 13 4 4L19 7"/>')+'</svg><span>'+msg+"</span>";
-  box.appendChild(t);
-  setTimeout(function(){t.classList.add("out");setTimeout(function(){t.remove()},320)},3600);
+/* прямая ссылка на все кнопки скачивания (+ атрибут download) */
+ $$('a.dl').forEach(a=>{a.href=DL_LINK;a.setAttribute('download','tgWsProxy-setup.exe');a.rel='noopener';});
+ $('#year').textContent=new Date().getFullYear();
+
+/* ── шапка / бургер ── */
+const head=$('#siteHead');
+addEventListener('scroll',()=>head.classList.toggle('scrolled',scrollY>10),{passive:true});
+ $('#burger').addEventListener('click',()=>document.body.classList.toggle('nav-open'));
+ $$('#mobileNav a').forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('nav-open')));
+
+/* ── глитч-всплески заголовка ── */
+const heroG=$('#heroGlitch');
+const burst=(el,ms)=>{el.classList.add('hot');setTimeout(()=>el.classList.remove('hot'),ms);};
+burst(heroG,700);
+setInterval(()=>{if(Math.random()<.75)burst(heroG,400+Math.random()*450);},3800);
+
+/* ── появление при скролле ── */
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+}),{threshold:.12});
+ $$('.reveal').forEach(el=>io.observe(el));
+
+/* ═══════════ ГЛАВНЫЙ ИНТЕРАКТИВ: ТУМБЛЕР + МАКЕТ TELEGRAM ═══════════ */
+const tgWin=$('#tgWin'), skels=$('#chatsSkels'), overlay=$('#tgOverlay'),
+      connBadge=$('#connBadge'), peerSt=$('#peerStatus'), ovSpinTxt=$('#ovSpinTxt'),
+      typingRow=$('#typingRow'), ppStatus=$('#ppStatus'), ppHint=$('#ppHint'),
+      ppLog=$('#ppLog'), bigT=$('#bigToggle'), ppCard=$('.power-panel'),
+      msgList=$('#msgList'), incMsg=$('#msgIncoming'),
+      chatItems=$$('#chatsList .tg-chat-item'),
+      mainMsgs=$$('#msgList .msg:not(.incoming)'),
+      artemItem=chatItems[1];
+
+let power=false, T=[];
+const setT=(fn,ms)=>{const id=setTimeout(fn,ms);T.push(id);return id;};
+const clearT=()=>{T.forEach(clearTimeout);T=[];};
+const badge=(m,t)=>{connBadge.className='tg-conn '+m;connBadge.textContent=t;};
+const peer =(m,t)=>{peerSt.className='peer-st '+m;peerSt.textContent=t;};
+const log=(t,cls='')=>{const d=document.createElement('div');d.className='ln '+cls;d.textContent='> '+t;
+  ppLog.appendChild(d);while(ppLog.children.length>4)ppLog.firstChild.remove();};
+
+function applyPower(on){
+  if(power===on)return;
+  power=on; clearT();
+  bigT.classList.toggle('on',on);
+  bigT.setAttribute('aria-checked',on);
+  ppCard.classList.toggle('on',on);
+  ppStatus.textContent=on?'Прокси включён':'Прокси выключен';
+  ppHint.textContent=on?'Туннель активен — сообщения идут через WebSocket':'Telegram не может достучаться до сервера';
+  ppLog.innerHTML='';
+  on?seqOn():seqOff();
 }
+bigT.addEventListener('click',()=>applyPower(!power));
+bigT.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();applyPower(!power);}});
 
-/* ================= шапка / меню / scrollspy ================= */
-var header=$("#siteHeader"), burger=$("#burger"), mobileMenu=$("#mobileMenu");
-function onScroll(){header.classList.toggle("scrolled",window.scrollY>10)}
-window.addEventListener("scroll",onScroll,{passive:true}); onScroll();
-
-burger.addEventListener("click",function(){
-  var open=mobileMenu.classList.toggle("open");
-  burger.setAttribute("aria-expanded",open?"true":"false");
-  burger.setAttribute("aria-label",open?"Закрыть меню":"Открыть меню");
-});
- $$("#mobileMenu a").forEach(function(a){a.addEventListener("click",function(){
-  mobileMenu.classList.remove("open");burger.setAttribute("aria-expanded","false");
-})});
-
-var spyLinks=$$(".nav-links a[data-spy]");
-var spyObs=new IntersectionObserver(function(entries){
-  entries.forEach(function(e){
-    if(e.isIntersecting){
-      spyLinks.forEach(function(l){l.classList.toggle("active",l.dataset.spy===e.target.id)});
-    }
-  });
-},{rootMargin:"-40% 0px -55% 0px"});
-["features","how","demo","download","contacts"].forEach(function(id){
-  var el=document.getElementById(id); if(el) spyObs.observe(el);
-});
-
-/* ================= reveal-анимации ================= */
-var revObs=new IntersectionObserver(function(entries){
-  entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");revObs.unobserve(e.target)}});
-},{threshold:.14});
- $$(".reveal").forEach(function(el,i){el.style.transitionDelay=(i%4)*70+"ms";revObs.observe(el)});
- $$(".step").forEach(function(el,i){el.style.transitionDelay=i*90+"ms";revObs.observe(el)});
-
-/* мини-бары в bento: заполняются при появлении */
-var barObs=new IntersectionObserver(function(entries){
-  entries.forEach(function(e){if(e.isIntersecting){
-    $$("i[data-w]",e.target).forEach(function(i){i.style.width=i.dataset.w+"%"});
-    barObs.unobserve(e.target);
-  }});
-},{threshold:.4});
- $$(".mini-bars").forEach(function(el){barObs.observe(el)});
-
-/* ================= счётчики ================= */
-function animateCounter(el){
-  var target=parseFloat(el.dataset.target), t0=null, dur=1700;
-  if(prefersReduced){el.textContent=fmt(target);return}
-  function frame(t){
-    if(!t0)t0=t;
-    var p=Math.min(1,(t-t0)/dur); p=1-Math.pow(1-p,3);
-    el.textContent=fmt(target*p);
-    if(p<1)requestAnimationFrame(frame);
-  }
-  requestAnimationFrame(frame);
+function seqOff(){                       /* ВЫКЛ: вечная загрузка → ошибка */
+  tgWin.classList.remove('live');
+  chatItems.forEach(i=>i.classList.remove('show'));
+  mainMsgs.forEach(m=>m.classList.remove('show'));
+  incMsg.classList.remove('show','new-in');
+  typingRow.classList.remove('on');
+  artemItem.querySelector('.unread').style.display='none';
+  artemItem.querySelector('.ci-prev').textContent='Скинь правки сегодня вечером';
+  artemItem.querySelector('.ci-time').textContent='10:04';
+  skels.classList.remove('hide');
+  overlay.classList.remove('gone');overlay.dataset.state='spin';
+  ovSpinTxt.textContent='Загрузка сообщений…';
+  badge('wait','Подключение…');peer('','не в сети');
+  log('tunnel: offline','dim');
+  setT(()=>{if(power)return;overlay.dataset.state='error';badge('err','Нет соединения');},2600);
 }
-var cntObs=new IntersectionObserver(function(entries){
-  entries.forEach(function(e){if(e.isIntersecting){animateCounter(e.target);cntObs.unobserve(e.target)}});
-},{threshold:.5});
- $$(".counter").forEach(function(el){cntObs.observe(el)});
-
-/* тик процента в карточке героя */
-var heroPct=$("#heroPct"), heroBar=$("#heroBar");
-var heroObs=new IntersectionObserver(function(entries){
-  entries.forEach(function(e){if(e.isIntersecting){
-    var target=92, t0=null, dur=1500;
-    function fr(t){if(!t0)t0=t;var p=Math.min(1,(t-t0)/dur);p=1-Math.pow(1-p,3);
-      heroPct.textContent=Math.round(target*p);heroBar.style.width=(target*p)+"%";
-      if(p<1)requestAnimationFrame(fr)}
-    requestAnimationFrame(fr);heroObs.unobserve(e.target);
-  }});
-},{threshold:.4});
-heroObs.observe($("#heroCard"));
-
-/* параллакс карточки героя */
-if(!prefersReduced){
-  var heroCard=$("#heroCard");
-  document.querySelector(".hero").addEventListener("mousemove",function(e){
-    var r=heroCard.getBoundingClientRect();
-    var dx=(e.clientX-(r.left+r.width/2))/r.width, dy=(e.clientY-(r.top+r.height/2))/r.height;
-    heroCard.style.transform="perspective(900px) rotateY("+(-dx*4)+"deg) rotateX("+(dy*3)+"deg)";
-  });
-  document.querySelector(".hero").addEventListener("mouseleave",function(){heroCard.style.transform=""});
-}
-
-/* кнопка «Смотреть демо» пульсирует дропзоной */
- $("#heroUpload").addEventListener("click",function(){
-  setTimeout(function(){
-    var dz=$("#dropzone");dz.classList.remove("flash");void dz.offsetWidth;dz.classList.add("flash");
-  },600);
+ $('#retryBtn').addEventListener('click',()=>{   /* «Повторить» — снова спиннер */
+  if(power)return;
+  overlay.dataset.state='spin';ovSpinTxt.textContent='Загрузка сообщений…';badge('wait','Подключение…');
+  setT(()=>{if(power)return;overlay.dataset.state='error';badge('err','Нет соединения');},2400);
 });
 
-/* ================= океанская волна (canvas) ================= */
-(function(){
-  var cv=$("#waveCanvas"), ctx=cv.getContext("2d");
-  var W=0,H=0,dpr=1, mx=-9999,my=-9999;
-  var particles=[];
-  function resize(){
-    dpr=Math.min(2,window.devicePixelRatio||1);
-    var hero=cv.parentElement.getBoundingClientRect();
-    W=hero.width;H=hero.height;
-    cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
-    particles=[];
-    for(var i=0;i<60;i++)particles.push({
-      x:Math.random()*W, y:Math.random()*H,
-      r:.6+Math.random()*1.8, s:.08+Math.random()*.3,
-      ph:Math.random()*Math.PI*2, c:Math.random()<.6?"55,229,200":"92,184,221"
-    });
-  }
-  resize();window.addEventListener("resize",resize);
-  cv.parentElement.addEventListener("mousemove",function(e){
-    var r=cv.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;
-  });
-  cv.parentElement.addEventListener("mouseleave",function(){mx=-9999;my=-9999});
+function seqOn(){                        /* ВКЛ: подключение → чаты → сообщения → входящее */
+  tgWin.classList.add('live');
+  overlay.classList.remove('gone');overlay.dataset.state='spin';
+  ovSpinTxt.textContent='Подключение к Telegram…';
+  badge('wait','Подключение…');peer('wait','подключение…');
+  setT(()=>log('ws handshake: ok','ok'),250);
+  setT(()=>log('route: telegram only','dim'),900);
+  setT(()=>overlay.dataset.state='ok',950);
+  setT(()=>{overlay.classList.add('gone');skels.classList.add('hide');},1500);
+  setT(()=>badge('ok','Через tgWsProxy'),1500);
+  setT(()=>log('ping 38ms · stable','ok'),1600);
+  chatItems.forEach((it,i)=>setT(()=>it.classList.add('show'),1450+i*110));
+  mainMsgs.forEach((m,i)=>setT(()=>m.classList.add('show'),1900+i*170));
+  setT(()=>{msgList.scrollTop=msgList.scrollHeight;},2700);
+  setT(()=>peer('on','в сети'),2100);
+  setT(()=>{if(power)typingRow.classList.add('on');},3800);
+  setT(()=>{
+    if(!power)return;
+    typingRow.classList.remove('on');
+    incMsg.classList.add('show','new-in');
+    msgList.scrollTop=msgList.scrollHeight;
+    artemItem.querySelector('.ci-prev').textContent='твой тумблер реально спас…';
+    artemItem.querySelector('.ci-time').textContent='сейчас';
+    artemItem.querySelector('.unread').style.display='grid';
+    log('+1 message · delivered','ok');
+  },4800);
+}
+seqOff();  /* стартовое состояние: загрузка → ошибка */
 
-  var lines=[
-    {base:.62,amp:26,f:.006,f2:.013,sp:.00045,col:"55,229,200",a:.30,w:1.4},
-    {base:.70,amp:34,f:.005,f2:.011,sp:.00034,col:"55,229,200",a:.22,w:1.2},
-    {base:.78,amp:44,f:.004,f2:.009,sp:.00027,col:"92,184,221",a:.20,w:1.2},
-    {base:.86,amp:56,f:.0035,f2:.008,sp:.00021,col:"92,184,221",a:.15,w:1.1},
-    {base:.94,amp:66,f:.003,f2:.007,sp:.00016,col:"55,229,200",a:.10,w:1}
-  ];
+/* ═══════════ ВКЛАДКИ ДЕМО ═══════════ */
+ $$('.tab').forEach(t=>t.addEventListener('click',()=>{
+  $$('.tab').forEach(x=>x.classList.toggle('active',x===t));
+  $$('.pane').forEach(p=>p.classList.toggle('active',p.dataset.pane===t.dataset.tab));
+}));
 
-  function draw(t){
-    ctx.clearRect(0,0,W,H);
-    /* частицы-«планктон» */
-    for(var p=0;p<particles.length;p++){
-      var pt=particles[p];
-      if(!prefersReduced){
-        pt.y-=pt.s; pt.x+=Math.sin(t*.0004+pt.ph)*.18;
-        if(pt.y<-4){pt.y=H+4;pt.x=Math.random()*W}
-      }
-      var tw=.35+.65*Math.abs(Math.sin(t*.001+pt.ph));
-      ctx.beginPath();ctx.arc(pt.x,pt.y,pt.r,0,Math.PI*2);
-      ctx.fillStyle="rgba("+pt.c+","+(0.35*tw).toFixed(3)+")";ctx.fill();
-    }
-    /* линии волн */
-    for(var l=0;l<lines.length;l++){
-      var L=lines[l];
-      ctx.beginPath();
-      var y0=H*L.base;
-      for(var x=0;x<=W;x+=6){
-        var env=Math.exp(-Math.pow(x-mx,2)/38000);      /* влияние курсора */
-        var y=y0
-          +Math.sin(x*L.f+t*L.sp*1000)*L.amp
-          +Math.sin(x*L.f2-t*L.sp*640+2)*L.amp*.4
-          +env*(my-y0)*.22;                              /* волна тянется к курсору */
-        if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
-      }
-      ctx.strokeStyle="rgba("+L.col+","+L.a+")";
-      ctx.lineWidth=L.w;
-      ctx.stroke();
-    }
-    if(!prefersReduced)requestAnimationFrame(draw);
-  }
-  requestAnimationFrame(draw);
-})();
-
-/* ================= ДЕМО ================= */
-var SAMPLES=[
-{name:"sorting.py",text:[
-"import sys","","def bubble_sort(arr):","    n = len(arr)","    for i in range(n):","        for j in range(0, n - i - 1):","            if arr[j] > arr[j + 1]:","                arr[j], arr[j + 1] = arr[j + 1], arr[j]","    return arr","","def binary_search(arr, target):","    low, high = 0, len(arr) - 1","    while low <= high:","        mid = (low + high) // 2","        if arr[mid] == target:","            return mid","        elif arr[mid] < target:","            low = mid + 1","        else:","            high = mid - 1","    return -1","","if __name__ == '__main__':","    data = [5, 2, 9, 1, 7, 3]","    bubble_sort(data)","    print(binary_search(data, 7))"].join("\n")},
-{name:"sort_copy.py",text:[
-"import sys","# sorting module for lab task","","def bubble_sort(nums):","    n = len(nums)","    for i in range(n):","        swapped = False","        for j in range(0, n - i - 1):","            if nums[j] > nums[j + 1]:","                nums[j], nums[j + 1] = nums[j + 1], nums[j]","                swapped = True","    return nums","","def find_value(items, key):","    low, high = 0, len(items) - 1","    while low <= high:","        mid = (low + high) // 2","        if items[mid] == key:","            return mid","        elif items[mid] < key:","            low = mid + 1","        else:","            high = mid - 1","    return -1","","def main():","    data = [5, 2, 9, 1, 7, 3]","    bubble_sort(data)","    print(find_value(data, 7))","","main()"].join("\n")},
-{name:"utils.js",text:[
-"// Утилиты для интерфейса","export function debounce(fn, delay) {","  let timer = null;","  return function (...args) {","    clearTimeout(timer);","    timer = setTimeout(() => fn.apply(this, args), delay);","  };","}","","export function formatBytes(bytes) {","  if (bytes < 1024) return bytes + ' B';","  if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';","  return (bytes / 1048576).toFixed(1) + ' MB';","}","","export function clamp(value, min, max) {","  return Math.min(max, Math.max(min, value));","}"].join("\n")},
-{name:"utils_copy.js",text:[
-"// helpers module","export function debounce(fn, ms) {","  let timer = null;","  return function (...args) {","    clearTimeout(timer);","    timer = setTimeout(() => fn.apply(this, args), ms);","  };","}","","export function formatBytes(bytes) {","  if (bytes < 1024) return bytes + ' B';","  if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';","  return (bytes / 1048576).toFixed(1) + ' MB';","}","","export function uid() {","  return Math.random().toString(36).slice(2);","}","","export function clamp(value, min, max) {","  return Math.min(max, Math.max(min, value));","}"].join("\n")},
-{name:"graph.cpp",text:[
-"#include <vector>","#include <queue>","#include <iostream>","","void dfs(int v, const std::vector<std::vector<int>>& g, std::vector<bool>& used) {","    used[v] = true;","    for (int to : g[v]) {","        if (!used[to]) dfs(to, g, used);","    }","}","","void bfs(int start, const std::vector<std::vector<int>>& g) {","    std::queue<int> q;","    q.push(start);","    std::vector<bool> used(g.size(), false);","    used[start] = true;","    while (!q.empty()) {","        int v = q.front(); q.pop();","        std::cout << v << ' ';","        for (int to : g[v]) if (!used[to]) { used[to] = true; q.push(to); }","    }","}"].join("\n")},
-{name:"README.md",text:[
-"# Лабораторная работа №3","Реализация алгоритмов сортировки и поиска.","Студент: Иванов И., группа 201.","","## Запуск","python sorting.py"].join("\n")}
+/* ═══════════ ДЕМО 1 — переключение чатов ═══════════ */
+const D1=[
+ {n:'Мария Ковалёва',ini:'МК',h:'h1',st:'в сети',on:true,tm:'10:24',m:[['in','Смотри, что нашла для первого экрана','10:18'],['out','Уже открыл. Тема с тумблером — топ','10:20'],['in','Главное — чтобы демо было живое','10:21'],['out','Делаю. Через час скину черновик','10:24']]},
+ {n:'Артём Соколов',ini:'АС',h:'h2',st:'в сети',on:true,tm:'10:02',m:[['in','Привет! Ты видел новый макет?','09:58'],['out','Ага, глянул. Выглядит отлично','10:00'],['in','Скинь правки сегодня вечером','10:02']]},
+ {n:'Dev Team',ini:'DT',h:'h3',st:'5 участников онлайн',on:true,tm:'09:47',m:[['in','Релиз 1.4.2 собран, тесты зелёные','09:40'],['out','Отлично. Выкладываю на сайт','09:44'],['in','Добавь в ченджлог фикс туннеля','09:47']]},
+ {n:'Мама',ini:'М',h:'h4',st:'была недавно',on:false,tm:'09:15',m:[['in','Ты поел?','08:50'],['out','Да, мам, всё хорошо','09:12'],['in','Позвони вечером, пожалуйста','09:15']]},
+ {n:'Аня Ветрова',ini:'АВ',h:'h5',st:'в сети',on:true,tm:'Вчера',m:[['out','Отправил тебе тот референс','Вчера'],['in','Спасибо! Посмотрю на выходных','Вчера'],['in','Кстати, тумблер — огонь','Вчера']]},
+ {n:'Сервис уведомлений',ini:'SU',h:'h6',st:'бот',on:false,tm:'Вчера',m:[['in','Код входа: 48-291. Никому его не показывайте','Вчера']]}
 ];
-
-var EXT_LANG={py:"Python",js:"JavaScript",ts:"TypeScript",jsx:"JSX",tsx:"TSX",c:"C",h:"C",cpp:"C++",hpp:"C++",cc:"C++",java:"Java",cs:"C#",go:"Go",rb:"Ruby",rs:"Rust",php:"PHP",swift:"Swift",kt:"Kotlin",sh:"Shell",html:"HTML",css:"CSS",json:"JSON",md:"Markdown",txt:"Text",sql:"SQL"};
-
-var files=[], results=[], selectedIdx=-1, fid=0;
-var dropzone=$("#dropzone"), fileList=$("#fileList"), analyzeBtn=$("#analyzeBtn");
-
-function extOf(name){var m=name.toLowerCase().match(/\.([a-z0-9]+)$/);return m?m[1]:""}
-function fmtSize(b){if(b<1024)return b+" Б";if(b<1048576)return (b/1024).toFixed(1)+" КБ";return (b/1048576).toFixed(1)+" МБ"}
-
-function renderFiles(){
-  fileList.innerHTML="";
-  if(!files.length){
-    fileList.innerHTML='<div class="empty-hint">Файлов пока нет — перетащите их выше или нажмите «Загрузить примеры».</div>';
-  } else {
-    files.forEach(function(f,idx){
-      var it=document.createElement("div");it.className="file-item";
-      it.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 3v5h5M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/></svg>'+
-        '<span class="fi-name">'+esc(f.name)+'</span>'+
-        '<span class="fi-meta">'+(f.lang||"—")+" · "+fmtSize(f.size)+'</span>'+
-        '<button class="fi-del" aria-label="Удалить файл '+esc(f.name)+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>';
-      it.querySelector(".fi-del").addEventListener("click",function(e){
-        e.stopPropagation();files.splice(idx,1);resetResults();renderFiles();updateBtn();
-      });
-      fileList.appendChild(it);
+const d1List=$('#d1List'),d1Msgs=$('#d1Msgs'),d1Name=$('#d1Name'),d1St=$('#d1St'),d1Ava=$('#d1Ava');
+const bub=(d,txt,tm)=>`<div class="msg ${d}"><div class="bub">${txt}<span class="t">${tm}</span></div></div>`;
+d1List.innerHTML=D1.map((c,i)=>`
+  <li class="tg-chat-item" data-i="${i}">
+    <span class="ava ${c.h}">${c.ini}</span>
+    <span class="ci-text"><span class="ci-top"><span class="ci-name">${c.n}</span><span class="ci-time">${c.tm}</span></span>
+    <span class="ci-prev">${c.m[c.m.length-1][1]}</span></span>
+  </li>`).join('');
+const d1Items=$$('#d1List .tg-chat-item');
+let d1cur=0;
+d1Items[0].classList.add('active','show');
+d1Msgs.innerHTML=D1[0].m.map(m=>bub(m[0],m[1],m[2])).join('');
+ $$('.msg',d1Msgs).forEach(m=>m.classList.add('show'));
+d1Msgs.scrollTop=d1Msgs.scrollHeight;
+function openD1(i){
+  if(i===d1cur)return; d1cur=i;
+  d1Items.forEach((el,k)=>el.classList.toggle('active',k===i));
+  const c=D1[i];
+  d1Msgs.classList.add('fade');
+  setTimeout(()=>{
+    d1Msgs.innerHTML=c.m.map(m=>bub(m[0],m[1],m[2])).join('');
+    d1Name.textContent=c.n; d1Ava.textContent=c.ini; d1Ava.className='ava '+c.h;
+    d1St.textContent=c.st;  d1St.className='peer-st '+(c.on?'on':'');
+    requestAnimationFrame(()=>{
+      $$('.msg',d1Msgs).forEach((m,k)=>setTimeout(()=>m.classList.add('show'),40+k*80));
+      d1Msgs.scrollTop=d1Msgs.scrollHeight;
     });
-  }
-  updateBtn();
+    d1Msgs.classList.remove('fade');
+  },220);
 }
-function updateBtn(){analyzeBtn.disabled=files.length<2||analyzeBtn.dataset.busy==="1"}
+d1List.addEventListener('click',e=>{const li=e.target.closest('.tg-chat-item');if(li)openD1(+li.dataset.i);});
 
-function resetResults(){
-  results=[];selectedIdx=-1;
-  $("#pairsWrap").classList.remove("show");$("#diffPanel").classList.remove("show");
-  $("#resultEmpty").style.display="";$("#progressBlock").classList.remove("show");
+/* ═══════════ ДЕМО 2 — отправка сообщения ═══════════ */
+const d2Msgs=$('#d2Msgs'),d2In=$('#d2Input'),d2Btn=$('#d2Send'),d2Typ=$('#d2Typing');
+const svgClock=`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2"/></svg>`;
+const svgCheck=`<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`;
+const svgDbl=`<svg viewBox="0 0 24 24"><path d="M2.5 12.5l4.5 4.5L15.5 8.5"/><path d="M9 16.5l1.5 1.5L21 7.5"/></svg>`;
+const REPLIES=['Принял, спасибо!','Ха, отлично','Дай пару минут, посмотрю','Согласен, так и сделаем','Уже занимаюсь этим'];
+let ri=0;
+const d2Scroll=()=>{d2Msgs.scrollTop=d2Msgs.scrollHeight;};
+function d2Send(raw){
+  const text=(raw||'').trim(); if(!text)return;
+  d2In.value='';
+  const el=document.createElement('div');
+  el.className='msg out show new-in';
+  el.innerHTML=`<div class="bub">${esc(text)}<span class="t"><span class="ticks">${svgClock}</span>сейчас</span></div>`;
+  d2Msgs.insertBefore(el,d2Typ); d2Scroll();
+  const ticks=el.querySelector('.ticks');
+  setTimeout(()=>{ticks.innerHTML=svgCheck;},500);            /* одна галочка */
+  setTimeout(()=>{ticks.innerHTML=svgDbl;},1100);             /* две галочки  */
+  setTimeout(()=>{ticks.classList.add('read');                /* прочитано    */
+    d2Typ.classList.add('on');d2Scroll();},1800);
+  setTimeout(()=>{d2Typ.classList.remove('on');               /* ответ        */
+    const r=document.createElement('div');
+    r.className='msg in show new-in';
+    r.innerHTML=`<div class="bub">${REPLIES[ri++%REPLIES.length]}<span class="t">сейчас</span></div>`;
+    d2Msgs.insertBefore(r,d2Typ);d2Scroll();},3000);
 }
+d2Btn.addEventListener('click',()=>d2Send(d2In.value));
+d2In.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();d2Send(d2In.value);}});
+ $$('.chip').forEach(ch=>ch.addEventListener('click',()=>{d2In.value=ch.dataset.text;d2Send(ch.dataset.text);}));
 
-function addFiles(fileObjs){
-  var skipped=0, added=0;
-  var arr=Array.prototype.slice.call(fileObjs);
-  var process=function(i){
-    if(i>=arr.length){
-      if(skipped)toast("Пропущено файлов не-кода или больше 2 МБ: "+skipped,true);
-      if(added)toast(added===1?"Добавлен 1 файл":"Добавлено файлов: "+added);
-      if(files.length>10){files=files.slice(0,10);toast("Лимит демо — 10 файлов, лишние отброшены",true)}
-      renderFiles();return;
-    }
-    var f=arr[i];
-    var ext=extOf(f.name);
-    if(!EXT_LANG[ext]||f.size>2*1024*1024){skipped++;process(i+1);return}
-    if(files.some(function(x){return x.name===f.name})||files.length>=10){skipped++;process(i+1);return}
-    f.text().then(function(txt){
-      files.push({id:++fid,name:f.name,lang:EXT_LANG[ext],size:f.size||new Blob([txt]).size,text:txt});
-      added++;resetResults();renderFiles();process(i+1);
-    }).catch(function(){skipped++;process(i+1)});
-  };
-  process(0);
-}
-
-dropzone.addEventListener("click",function(e){if(e.target.tagName!=="BUTTON")$("#fileInput").click()});
-dropzone.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();$("#fileInput").click()}});
- $("#pickFiles").addEventListener("click",function(e){e.stopPropagation();$("#fileInput").click()});
- $("#pickFolder").addEventListener("click",function(e){e.stopPropagation();$("#folderInput").click()});
- $("#fileInput").addEventListener("change",function(){addFiles(this.files);this.value=""});
- $("#folderInput").addEventListener("change",function(){addFiles(this.files);this.value=""});
-["dragenter","dragover"].forEach(function(ev){dropzone.addEventListener(ev,function(e){e.preventDefault();dropzone.classList.add("over")})});
-["dragleave","drop"].forEach(function(ev){dropzone.addEventListener(ev,function(e){e.preventDefault();dropzone.classList.remove("over")})});
-dropzone.addEventListener("drop",function(e){if(e.dataTransfer&&e.dataTransfer.files.length)addFiles(e.dataTransfer.files)});
- $("#loadSamples").addEventListener("click",function(e){
-  e.stopPropagation();
-  var added=0;
-  SAMPLES.forEach(function(s){
-    if(files.length<10&&!files.some(function(x){return x.name===s.name})){
-      files.push({id:++fid,name:s.name,lang:EXT_LANG[extOf(s.name)]||"Text",size:new Blob([s.text]).size,text:s.text});
-      added++;
-    }
-  });
-  resetResults();renderFiles();
-  toast(added?"Загружено примеров: "+added+". Нажмите «Проверить».":"Примеры уже добавлены");
+/* ═══════════ ДЕМО 3 — медиа и статусы ═══════════ */
+const d3T=$('#d3Toggle'),d3Lbl=$('#d3Lbl'),d3Btn=$('#d3SendBtn'),
+      d3Bar=$('#d3Bar'),d3Pct=$('#d3Pct'),d3Err=$('#d3Err'),
+      d3Bub=$('#d3Bub'),d3Status=$('#d3Status'),d3Reply=$('#d3Reply');
+let d3on=false,d3up=false,d3stuck=0,d3timer=null,d3err=false,d3cyc=0;
+function d3SetUI(){d3T.classList.toggle('on',d3on);d3T.setAttribute('aria-checked',d3on);
+  d3Lbl.textContent='Прокси: '+(d3on?'вкл':'выкл');}
+d3T.addEventListener('click',()=>{
+  d3on=!d3on; d3SetUI();
+  if(d3on){d3Err.classList.remove('show');d3Bub.classList.remove('stuck');d3err=false;}
+  else{d3Status.textContent='не в сети';d3Status.className='peer-st';}
 });
-renderFiles();
-
-/* ---------- алгоритм сравнения ---------- */
-function normalize(s){return s.replace(/\t/g,"  ").trim().replace(/\s+/g," ").toLowerCase()}
-
-function lcsAlign(a,b){
-  var n=a.length,m=b.length,W=m+1;
-  var dp=new Uint32Array((n+1)*W);
-  for(var i=n-1;i>=0;i--)for(var j=m-1;j>=0;j--){
-    dp[i*W+j]=(a[i]===b[j])?dp[(i+1)*W+j+1]+1:Math.max(dp[(i+1)*W+j],dp[i*W+j+1]);
+d3Btn.addEventListener('click',()=>{
+  if(d3up)return;
+  if(d3Bub.classList.contains('done')){         /* повтор демо */
+    d3Bub.classList.remove('done');
+    d3Bar.style.width='0%';d3Pct.textContent='0%';
+    d3Err.classList.remove('show');d3err=false;d3stuck=0;
+    d3Reply.classList.remove('show','new-in');
+    d3Btn.lastChild.textContent=' Отправить фото';
   }
-  var rows=[],i=0,j=0;
-  while(i<n&&j<m){
-    if(a[i]===b[j]){rows.push({t:"eq",i:i,j:j});i++;j++;}
-    else if(dp[(i+1)*W+j]>=dp[i*W+j+1]){rows.push({t:"a",i:i});i++;}
-    else{rows.push({t:"b",j:j});j++;}
-  }
-  while(i<n){rows.push({t:"a",i:i});i++}
-  while(j<m){rows.push({t:"b",j:j});j++}
-  return rows;
-}
-
-function approxCompare(na,nb){ /* для очень длинных файлов — по множествам строк */
-  var cntB={};
-  nb.forEach(function(s){if(s)cntB[s]=(cntB[s]||0)+1});
-  var cntA={};
-  na.forEach(function(s){if(s)cntA[s]=(cntA[s]||0)+1});
-  var matched=0;
-  Object.keys(cntA).forEach(function(k){if(cntB[k])matched+=Math.min(cntA[k],cntB[k])});
-  var inB={};nb.forEach(function(s){if(s)inB[s]=true});
-  return {matched:matched,inB:inB};
-}
-
-function frame(){return new Promise(function(r){requestAnimationFrame(r)})}
-function wait(ms){return new Promise(function(r){setTimeout(r,ms)})}
-
-function setProgress(p,stage){
-  $("#pbFill").style.width=p+"%";
-  $("#pbNum").textContent=Math.round(p)+"%";
-  if(stage)$("#pbStage").textContent=stage;
-}
-
-analyzeBtn.addEventListener("click",async function(){
-  if(files.length<2)return;
-  analyzeBtn.dataset.busy="1";updateBtn();
-  resetResults();
-  $("#resultEmpty").style.display="none";
-  $("#progressBlock").classList.add("show");
-
-  var norms=files.map(function(f){return f.text.split("\n").map(normalize)});
-
-  setProgress(4,"Нормализация кода…");await frame();
-  for(var q=0;q<files.length;q++){
-    setProgress(4+16*(q+1)/files.length,"Нормализация: "+files[q].name);
-    await frame();
-  }
-
-  var pairs=[];var total=files.length*(files.length-1)/2;var done=0;
-  setProgress(20,"Попарное сравнение…");await frame();
-  for(var i=0;i<files.length;i++){
-    for(var j=i+1;j<files.length;j++){
-      var na=norms[i],nb=norms[j];
-      var approx=na.length*nb.length>1000000;
-      var rows,matched,approxData=null;
-      if(approx){
-        approxData=approxCompare(na,nb);matched=approxData.matched;rows=null;
-      }else{
-        rows=lcsAlign(na,nb);matched=0;
-        for(var r=0;r<rows.length;r++)if(rows[r].t==="eq"&&na[rows[r].i])matched++;
-      }
-      var neA=na.filter(Boolean).length,neB=nb.filter(Boolean).length;
-      var pct=Math.round(200*matched/Math.max(1,neA+neB));
-      pairs.push({ai:i,bi:j,pct:pct,rows:rows,approx:approx,approxData:approxData});
-      done++;
-      setProgress(20+70*done/total,"Сравнение пар: "+done+" из "+total);
-      await wait(24);
+  d3up=true; d3err=false; d3stuck=0;
+  d3Err.classList.remove('show'); d3Bub.classList.add('up');
+  let p=0; const t0=Date.now();
+  clearInterval(d3timer);
+  d3timer=setInterval(()=>{
+    if(d3on){                                   /* прокси вкл: летит к 100% */
+      d3Bub.classList.remove('stuck');d3Err.classList.remove('show');
+      p+=2.2+Math.random()*3.6;
+    }else{                                      /* прокси выкл: застревает на ~15% */
+      if(!d3stuck)d3stuck=12+Math.random()*7;
+      p=Math.min(d3stuck,p+0.4+Math.random()*0.5);
+      if(!d3err&&Date.now()-t0>2100){d3err=true;d3Err.classList.add('show');d3Bub.classList.add('stuck');}
     }
-  }
-  pairs.sort(function(x,y){return y.pct-x.pct});
-  results=pairs;
-  setProgress(96,"Формирование отчёта…");await wait(300);
-  setProgress(100,"Готово");
-  renderPairs();
-  await wait(350);
-  $("#progressBlock").classList.remove("show");
-  analyzeBtn.dataset.busy="0";updateBtn();
-  toast("Анализ завершён: пар проверено — "+pairs.length);
-});
-
-function pctClass(p){return p>=70?"hi":p>=40?"mid":"low"}
-
-function renderPairs(){
-  var body=$("#pairsBody");body.innerHTML="";
-  var hi=0;
-  results.forEach(function(pr,idx){
-    if(pr.pct>=70)hi++;
-    var tr=document.createElement("tr");
-    tr.className="pair-row";tr.dataset.idx=idx;
-    tr.innerHTML=
-      '<td class="pair-names">'+esc(files[pr.ai].name)+'<span class="sep">↔</span>'+esc(files[pr.bi].name)+"</td>"+
-      '<td><div class="meter"><i style="width:'+pr.pct+'%"></i></div></td>'+
-      '<td><span class="pct '+pctClass(pr.pct)+'" style="font-family:var(--fm);border-radius:7px;padding:3px 9px;font-size:12px">'+pr.pct+"%</span></td>"+
-      '<td style="text-align:right"><button class="btn btn-ghost btn-sm" aria-label="Показать сравнение">Сравнить</button></td>';
-    tr.addEventListener("click",function(){selectPair(idx)});
-    body.appendChild(tr);
-  });
-  $("#pairsFoot").textContent="Пар проверено: "+results.length+" · с высоким совпадением (≥70%): "+hi+" · нажмите на строку, чтобы увидеть подсветку";
-  $("#pairsWrap").classList.add("show");
-}
-
-function selectPair(idx){
-  selectedIdx=idx;
-  $$("#pairsBody .pair-row").forEach(function(tr,i){tr.classList.toggle("active",i===idx)});
-  renderDiff(results[idx]);
-  var d=$("#diffPanel");
-  d.classList.add("show");
-  setTimeout(function(){d.scrollIntoView({behavior:prefersReduced?"auto":"smooth",block:"nearest"})},60);
-}
-
-function renderDiff(pr){
-  var fa=files[pr.ai],fb=files[pr.bi];
-  var MAX=400;
-  var html='<div class="diff-head">'+
-    '<span class="pair-title">'+esc(fa.name)+" <b>↔</b> "+esc(fb.name)+"</span>"+
-    '<span class="pct '+pctClass(pr.pct)+'" style="font-family:var(--fm);border-radius:7px;padding:3px 9px;font-size:12px">'+pr.pct+"% строк</span>"+
-    '<span class="legend"><span class="l-eq"><i></i>совпадение</span><span class="l-uniq"><i></i>уникальные строки</span></span>'+
-    "</div>";
-
-  var leftHtml="",rightHtml="";
-  function line(n,txt,cls){
-    return '<div class="dline '+cls+'"><span class="dn">'+(n!=null?n+1:"")+"</span><code>"+esc((txt||"").replace(/\t/g,"  "))+"</code></div>";
-  }
-  function gap(){return '<div class="dline gap"><span class="dn"></span><span class="gapline" style="display:block;width:100%"></span></div>'}
-
-  if(pr.approx){
-    /* длинные файлы: независимые панели, eq по наличию строки в другом файле */
-    fa.text.split("\n").slice(0,MAX).forEach(function(s,i){
-      var nm=normalize(s);
-      leftHtml+=line(i,s,(nm&&pr.approxData.inB[nm])?"eq":"");
-    });
-    var inA={};fa.text.split("\n").forEach(function(s){var n=normalize(s);if(n)inA[n]=true});
-    fb.text.split("\n").slice(0,MAX).forEach(function(s,i){
-      var nm=normalize(s);
-      rightHtml+=line(i,s,(nm&&inA[nm])?"eq":"");
-    });
-  }else{
-    var rows=pr.rows;
-    for(var k=0;k<rows.length;k++){
-      var row=rows[k];
-      if(row.t==="eq"){
-        var na=normalize(fa.text.split("\n")[row.i])||"";
-        var cls=na?"eq":"";
-        leftHtml+=line(row.i,fa.text.split("\n")[row.i],cls);
-        rightHtml+=line(row.j,fb.text.split("\n")[row.j],cls);
-      }else if(row.t==="a"){
-        leftHtml+=line(row.i,fa.text.split("\n")[row.i],"uniq");
-        rightHtml+=gap();
-      }else{
-        leftHtml+=gap();
-        rightHtml+=line(row.j,fb.text.split("\n")[row.j],"uniq");
-      }
-      if(k>MAX*2){leftHtml+='<div class="dline"><span class="dn"></span><code>… показаны первые '+MAX*2+" строк</code></div>";break}
+    const shown=Math.max(0,Math.min(100,p+(d3on?0:Math.sin((Date.now()-t0)/260)*1.2)));
+    d3Bar.style.width=shown+'%';
+    d3Pct.textContent=Math.round(shown)+'%';
+    if(p>=100){                                 /* готово: фото проявляется */
+      clearInterval(d3timer); d3up=false;
+      d3Bub.classList.remove('up','stuck'); d3Bub.classList.add('done');
+      d3Err.classList.remove('show');
+      d3Btn.lastChild.textContent=' Отправить ещё раз';
+      setTimeout(()=>{d3Reply.classList.add('show','new-in');},700);
     }
-  }
-  html+='<div class="diff-cols"><div class="diff-pane">'+leftHtml+'</div><div class="diff-pane">'+rightHtml+"</div></div>";
-  $("#diffPanel").innerHTML=html;
-}
-
-/* ================= FAQ ================= */
- $$(".faq-item").forEach(function(item){
-  item.querySelector(".faq-q").addEventListener("click",function(){
-    var open=item.classList.contains("open");
-    $$(".faq-item").forEach(function(x){x.classList.remove("open");x.querySelector(".faq-q").setAttribute("aria-expanded","false")});
-    if(!open){item.classList.add("open");item.querySelector(".faq-q").setAttribute("aria-expanded","true")}
-  });
+  },70);
 });
+/* живые статусы собеседницы */
+setInterval(()=>{
+  d3cyc++;
+  if(!d3on){d3Status.textContent='не в сети';d3Status.className='peer-st';}
+  else if(d3cyc%3===0){d3Status.textContent='печатает…';d3Status.className='peer-st wait';}
+  else{d3Status.textContent='в сети';d3Status.className='peer-st on';}
+},2400);
 
-/* ================= форма ================= */
- $("#contactForm").addEventListener("submit",function(e){
-  e.preventDefault();
-  var ok=true;
-  var name=$("#fName"),email=$("#fEmail");
-  [[name,name.value.trim().length>=2],[email,/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())]].forEach(function(p){
-    p[0].classList.toggle("err",!p[1]);
-    p[0].closest(".field").classList.toggle("has-err",!p[1]);
-    if(!p[1])ok=false;
-  });
-  if(!ok){toast("Проверьте выделенные поля формы",true);return}
-  var btn=$("#submitBtn");
-  btn.disabled=true;btn.textContent="Отправляем…";
-  var that=this;
-  setTimeout(function(){
-    btn.disabled=false;
-    btn.innerHTML='<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Отправлено';
-    toast("Спасибо, "+esc(name.value.trim())+"! Мы напишем на "+esc(email.value.trim())+" в течение рабочего дня.");
-    that.reset();
-    setTimeout(function(){btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/></svg> Отправить заявку'},2600);
-  },900);
-});
-})();
+/* ═══════════ FAQ-АККОРДЕОН ═══════════ */
+ $$('.qa .q').forEach(q=>q.addEventListener('click',()=>{
+  const qa=q.parentElement, wasOpen=qa.classList.contains('open');
+  $$('.qa').forEach(x=>x.classList.remove('open'));
+  if(!wasOpen)qa.classList.add('open');
+}));
 </script>
 </body>
 </html>
